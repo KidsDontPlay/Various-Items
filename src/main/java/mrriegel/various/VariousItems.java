@@ -1,6 +1,8 @@
-package mrriegel.withouttopic;
+package mrriegel.various;
 
-import mrriegel.withouttopic.proxy.CommonProxy;
+import mrriegel.various.proxy.CommonProxy;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -9,16 +11,16 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = WithoutTopic.MODID, name = WithoutTopic.MODNAME, version = WithoutTopic.VERSION)
-public class WithoutTopic {
-	public static final String MODID = "withouttopic";
+@Mod(modid = VariousItems.MODID, name = VariousItems.MODNAME, version = VariousItems.VERSION, guiFactory = "mrriegel.various.GuiFactory")
+public class VariousItems {
+	public static final String MODID = "various";
 	public static final String VERSION = "1.0";
-	public static final String MODNAME = "Without Topic";
+	public static final String MODNAME = "Various Items";
 
-	@Instance(WithoutTopic.MODID)
-	public static WithoutTopic instance;
+	@Instance(VariousItems.MODID)
+	public static VariousItems instance;
 
-	@SidedProxy(clientSide = "mrriegel.withouttopic.proxy.ClientProxy", serverSide = "mrriegel.withouttopic.proxy.CommonProxy")
+	@SidedProxy(clientSide = "mrriegel.various.proxy.ClientProxy", serverSide = "mrriegel.various.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	@EventHandler

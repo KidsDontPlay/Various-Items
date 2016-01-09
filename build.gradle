@@ -21,8 +21,8 @@ plugins {
 }
 */
 version = "1.8.9-1.0"
-group= "mrriegel.withouttopic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "WithoutTopic"
+group= "mrriegel.various" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "VariousItems"
 
 minecraft {
     version = "1.8.9-11.15.0.1688"
