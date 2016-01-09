@@ -57,18 +57,6 @@ public class ItemJetpack extends ItemArmor {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn,
-			EntityPlayer playerIn) {
-		if (!playerIn.isSneaking())
-			return super.onItemRightClick(itemStackIn, worldIn, playerIn);
-		else {
-			playerIn.openGui(VariousItems.instance, GuiHandler.JETPACK,
-					worldIn, 0, 0, 0);
-			return itemStackIn;
-		}
-	}
-
-	@Override
 	public boolean isRepairable() {
 		return false;
 	}
@@ -81,29 +69,6 @@ public class ItemJetpack extends ItemArmor {
 	@Override
 	public int getItemEnchantability(ItemStack stack) {
 		return 0;
-	}
-
-	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn,
-			int itemSlot, boolean isSelected) {
-		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-		ItemStack lava = ItemStack.loadItemStackFromNBT(stack.getTagCompound()
-				.getCompoundTag("lava"));
-		if (lava == null)
-			return;
-		if (lava.getItem() == Items.lava_bucket
-				&& NBTHelper.getInt(stack, "fuel")
-						+ ConfigHandler.fuelValueLava <= ConfigHandler.jetpackMaxFuel) {
-			NBTHelper.setInteger(stack, "fuel", NBTHelper.getInt(stack, "fuel")
-					+ ConfigHandler.fuelValueLava);
-			NBTTagCompound n = new NBTTagCompound();
-			new ItemStack(Items.bucket).writeToNBT(n);
-			stack.getTagCompound().setTag("lava", n);
-			EntityPlayer player = (EntityPlayer) entityIn;
-			player.inventory.mainInventory[player.inventory.currentItem] = stack;
-			player.openGui(VariousItems.instance, GuiHandler.JETPACK, worldIn,
-					0, 0, 0);
-		}
 	}
 
 	@Override
@@ -138,20 +103,22 @@ public class ItemJetpack extends ItemArmor {
 					.getInt(player.getCurrentArmor(2), "fuel")));
 
 		}
-		if (world.isRemote && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
-				&& !Keyboard.isKeyDown(Keyboard.KEY_SPACE)
-				&& NBTHelper.getInt(player.getCurrentArmor(2), "fuel") > 0
-				&& Minecraft.getMinecraft().inGameHasFocus) {
-			while (player.motionY <= -0.1) {
-				player.motionY += 0.05;
-
-			}
-			player.fallDistance = -1;
-			PacketHandler.INSTANCE.sendToServer(new JetpackMessage(NBTHelper
-					.getInt(player.getCurrentArmor(2), "fuel")));
-			NBTHelper.setInteger(player.getCurrentArmor(2), "fuel",
-					NBTHelper.getInt(player.getCurrentArmor(2), "fuel") - 1);
-		}
+		// if (world.isRemote && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+		// && !Keyboard.isKeyDown(Keyboard.KEY_SPACE)
+		// && NBTHelper.getInt(player.getCurrentArmor(2), "fuel") > 0
+		// && Minecraft.getMinecraft().inGameHasFocus) {
+		// if (player.motionY <= 0.0) {
+		// player.motionY += 0.15;
+		// NBTHelper
+		// .setInteger(player.getCurrentArmor(2), "fuel",
+		// NBTHelper.getInt(player.getCurrentArmor(2),
+		// "fuel") - 1);
+		// player.fallDistance = -1;
+		// PacketHandler.INSTANCE.sendToServer(new JetpackMessage(
+		// NBTHelper.getInt(player.getCurrentArmor(2), "fuel")));
+		// }
+		//
+		// }
 	}
 
 	private void moveFlying(EntityPlayer player, float p_70060_1_,

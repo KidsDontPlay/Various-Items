@@ -1,9 +1,10 @@
 package mrriegel.various.gui.jetpack;
 
-import java.util.ArrayList;
-
-import mrriegel.various.gui.CrunchItemContainer;
+import mrriegel.various.VariousItems;
+import mrriegel.various.config.ConfigHandler;
 import mrriegel.various.gui.CrunchItemInventory;
+import mrriegel.various.handler.GuiHandler;
+import mrriegel.various.helper.NBTHelper;
 import mrriegel.various.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,27 +13,14 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
 
 public class ContainerJetPack extends Container {
-	ItemStack storedInv;
 	InventoryPlayer playerInv;
 	CrunchItemInventory inv;
 
-	public ContainerJetPack(EntityPlayer player, InventoryPlayer playerInv,
-			CrunchItemInventory inv) {
-		storedInv = playerInv.getCurrentItem();
+	public ContainerJetPack(InventoryPlayer playerInv, CrunchItemInventory inv) {
 		this.playerInv = playerInv;
 		this.inv = inv;
-		if (storedInv != null && storedInv.getTagCompound() != null) {
-			inv.setInventorySlotContents(0, ItemStack
-					.loadItemStackFromNBT(storedInv.getTagCompound()
-							.getCompoundTag("lava")));
-		}
 		this.addSlotToContainer(new Slot(inv, 0, 80, 13) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
@@ -42,7 +30,7 @@ public class ContainerJetPack extends Container {
 			@Override
 			public void onSlotChanged() {
 				super.onSlotChanged();
-				change();
+				change(this);
 			}
 		});
 		for (int i = 0; i < 3; ++i) {
@@ -56,22 +44,39 @@ public class ContainerJetPack extends Container {
 		}
 	}
 
-	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
-		return playerIn.getHeldItem() != null
-				&& playerIn.getHeldItem().getItem() == ModItems.jetpack;
+	public void onContainerClosed(EntityPlayer playerIn) {
+		super.onContainerClosed(playerIn);
+
+		if (!playerIn.worldObj.isRemote) {
+
+			ItemStack itemstack = this.inv.removeStackFromSlot(0);
+
+			if (itemstack != null) {
+				playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
+			}
+
+		}
 	}
 
-	public void change() {
-		if (!storedInv.hasTagCompound())
-			storedInv.setTagCompound(new NBTTagCompound());
-		NBTTagCompound n = new NBTTagCompound();
-		if (inv.getStackInSlot(0) != null) {
-			inv.getStackInSlot(0).writeToNBT(n);
-			storedInv.getTagCompound().setTag("lava", n);
-		}
+	@Override
+	public boolean canInteractWith(EntityPlayer playerIn) {
+		return playerIn.getCurrentArmor(2) != null
+				&& playerIn.getCurrentArmor(2).getItem() == ModItems.jetpack;
+	}
 
-		playerInv.mainInventory[playerInv.currentItem] = storedInv;
+	public void change(Slot slot) {
+		ItemStack stack = playerInv.armorItemInSlot(2);
+		ItemStack lava = slot.getStack();
+		if (lava == null)
+			return;
+		if (lava.getItem() == Items.lava_bucket
+				&& NBTHelper.getInt(stack, "fuel")
+						+ ConfigHandler.fuelValueLava <= ConfigHandler.jetpackMaxFuel) {
+			NBTHelper.setInteger(stack, "fuel", NBTHelper.getInt(stack, "fuel")
+					+ ConfigHandler.fuelValueLava);
+			slot.inventory.setInventorySlotContents(slot.getSlotIndex(),
+					new ItemStack(Items.bucket));
+		}
 	}
 
 	protected boolean stackAllowed(ItemStack stackInSlot) {
@@ -79,8 +84,45 @@ public class ContainerJetPack extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-		return null;
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
+		ItemStack itemstack = null;
+		Slot slot = this.inventorySlots.get(slotIndex);
+
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			if (!stackAllowed(itemstack1))
+				return null;
+			itemstack = itemstack1.copy();
+
+			if (slotIndex == 0) {
+				if (!this.mergeItemStack(itemstack1, 1, 37, true)) {
+					return null;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
+			} else {
+				boolean merged = false;
+				if (this.mergeItemStack(itemstack1, 0, 1, false)) {
+					merged = true;
+				}
+
+				if (!merged)
+					return null;
+
+			}
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
+			}
+
+			slot.onPickupFromSlot(player, itemstack1);
+		}
+
+		return itemstack;
 	}
 
 }

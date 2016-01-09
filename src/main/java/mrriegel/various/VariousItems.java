@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod(modid = VariousItems.MODID, name = VariousItems.MODNAME, version = VariousItems.VERSION, guiFactory = "mrriegel.various.GuiFactory")
 public class VariousItems {

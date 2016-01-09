@@ -1,22 +1,16 @@
 package mrriegel.various.proxy;
 
-import com.sun.security.ntlm.Client;
-
 import mrriegel.various.VariousItems;
+import mrriegel.various.handler.KeyHandler;
 import mrriegel.various.items.ModItems;
+import mrriegel.various.render.RenderEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -31,6 +25,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		KeyHandler.init();
+		MinecraftForge.EVENT_BUS.register(new RenderEvents());
 	}
 
 	@Override
@@ -40,8 +36,23 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerRenderers() {
-		ModelLoader.setCustomModelResourceLocation(ModItems.jetpack, 0,
-				new ModelResourceLocation(VariousItems.MODID + ":jetpack"));
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+		renderItem.getItemModelMesher().register(
+				ModItems.jetpack,
+				0,
+				new ModelResourceLocation(VariousItems.MODID + ":jetpack",
+						"inventory"));
+		for (int i = 0; i < ModItems.material.number; i++) {
+			ModelBakery.registerItemVariants(ModItems.material,
+					new ResourceLocation(VariousItems.MODID + ":" + "material_"
+							+ i));
+			renderItem.getItemModelMesher().register(
+					ModItems.material,
+					i,
+					new ModelResourceLocation(VariousItems.MODID + ":material_"
+							+ i, "inventory"));
+
+		}
 	}
 
 }

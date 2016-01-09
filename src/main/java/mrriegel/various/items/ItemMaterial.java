@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMaterial extends Item {
-	private final int number = 6;
+	public final int number = 6;
 
 	public ItemMaterial() {
 		super();
@@ -31,5 +31,10 @@ public class ItemMaterial extends Item {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return this.getUnlocalizedName() + "_" + stack.getItemDamage();
+	}
+
+	@Override
+	public boolean hasEffect(ItemStack stack) {
+		return stack.getItemDamage()>1;
 	}
 }

@@ -11,8 +11,12 @@ public class PacketHandler {
 
 	public static void init() {
 		int id = 0;
-		 INSTANCE.registerMessage(JetpackMessage.class, JetpackMessage.class, id++,
-		 Side.SERVER);
+		INSTANCE.registerMessage(JetpackMessage.class, JetpackMessage.class,
+				id++, Side.SERVER);
+		INSTANCE.registerMessage(OpenMessage.class, OpenMessage.class, id++,
+				Side.SERVER);
+		INSTANCE.registerMessage(ParticleMessage.class, ParticleMessage.class,
+				id++, Side.CLIENT);
 	}
 
 }

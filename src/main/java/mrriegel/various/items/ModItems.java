@@ -9,8 +9,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 @ObjectHolder(value = VariousItems.MODID)
 public class ModItems {
 
-	public static final Item jetpack = new ItemJetpack();
-	public static final Item material = new ItemMaterial();
+	public static final ItemJetpack jetpack = new ItemJetpack();
+	public static final ItemMaterial material = new ItemMaterial();
 
 	public static void init() {
 		GameRegistry.registerItem(jetpack, "jetpack");

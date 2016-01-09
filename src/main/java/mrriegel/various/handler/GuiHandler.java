@@ -14,8 +14,8 @@ public class GuiHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
 		if (ID == JETPACK)
-			return new ContainerJetPack(player, player.inventory,
-					new InventoryJetpack(player.getHeldItem()));
+			return new ContainerJetPack(player.inventory, new InventoryJetpack(
+					player.getCurrentArmor(2)));
 		return null;
 	}
 
@@ -23,9 +23,8 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
 		if (ID == JETPACK)
-			return new GuiJetpack(new ContainerJetPack(player,
-					player.inventory,
-					new InventoryJetpack(player.getHeldItem())));
+			return new GuiJetpack(new ContainerJetPack(player.inventory,
+					new InventoryJetpack(player.getCurrentArmor(2))));
 		return null;
 	}
 

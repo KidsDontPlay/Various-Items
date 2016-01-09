@@ -24,8 +24,7 @@ public class GuiJetpack extends GuiContainer {
 		mc.fontRendererObj.drawString("Jetpack", 6, 7, 4210752);
 		mc.fontRendererObj.drawString(
 				"Fuel: "
-						+ NBTHelper.getInt(
-								((ContainerJetPack) inventorySlots).storedInv,
+						+ NBTHelper.getInt(mc.thePlayer.getCurrentArmor(2),
 								"fuel"), 6, 21, 4210752);
 	}
 

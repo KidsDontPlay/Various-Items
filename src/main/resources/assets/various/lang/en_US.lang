@@ -1,7 +1,9 @@
 item.various:jetpack.name=Jetpack
 item.various:material_0.name=Ender Nugget
-item.various:material_1.name=Nether Nugget
-item.various:material_2.name=Diamond Nugget
-item.various:material_3.name=123 Nugget
-item.various:material_4.name=321 Nugget
-item.various:material_5.name=213 Nugget
+item.various:material_1.name=Diamond Nugget
+item.various:material_2.name=Nether Nugget
+item.various:material_3.name=Sigma Nugget
+item.various:material_4.name=Sigma Gem
+item.various:material_5.name=Sigma Core
+
+various.keybinding.jetpack=Jetpack GUI
