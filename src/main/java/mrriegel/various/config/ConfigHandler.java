@@ -22,9 +22,9 @@ public class ConfigHandler {
 		jetpackMaxHorizontalSpeed = config.get(Configuration.CATEGORY_GENERAL,
 				"jetpackMaxHorizontalSpeed", 0.3).getDouble();
 		jetpackMaxFuel = config.get(Configuration.CATEGORY_GENERAL,
-				"jetpackMaxFuel", 4800).getInt();
+				"jetpackMaxFuel", 10000).getInt();
 		fuelValueLava = config.get(Configuration.CATEGORY_GENERAL,
-				"fuelValueLava", 1200).getInt();
+				"fuelValueLava", 2500).getInt();
 		if (config.hasChanged()) {
 			config.save();
 		}

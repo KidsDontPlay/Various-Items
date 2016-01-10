@@ -90,8 +90,6 @@ public class ContainerJetPack extends Container {
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
-			if (!stackAllowed(itemstack1))
-				return null;
 			itemstack = itemstack1.copy();
 
 			if (slotIndex == 0) {
@@ -101,7 +99,8 @@ public class ContainerJetPack extends Container {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 				boolean merged = false;
-				if (this.mergeItemStack(itemstack1, 0, 1, false)) {
+				if (stackAllowed(itemstack1)
+						&& this.mergeItemStack(itemstack1, 0, 1, false)) {
 					merged = true;
 				}
 

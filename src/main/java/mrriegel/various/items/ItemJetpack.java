@@ -103,22 +103,6 @@ public class ItemJetpack extends ItemArmor {
 					.getInt(player.getCurrentArmor(2), "fuel")));
 
 		}
-		// if (world.isRemote && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
-		// && !Keyboard.isKeyDown(Keyboard.KEY_SPACE)
-		// && NBTHelper.getInt(player.getCurrentArmor(2), "fuel") > 0
-		// && Minecraft.getMinecraft().inGameHasFocus) {
-		// if (player.motionY <= 0.0) {
-		// player.motionY += 0.15;
-		// NBTHelper
-		// .setInteger(player.getCurrentArmor(2), "fuel",
-		// NBTHelper.getInt(player.getCurrentArmor(2),
-		// "fuel") - 1);
-		// player.fallDistance = -1;
-		// PacketHandler.INSTANCE.sendToServer(new JetpackMessage(
-		// NBTHelper.getInt(player.getCurrentArmor(2), "fuel")));
-		// }
-		//
-		// }
 	}
 
 	private void moveFlying(EntityPlayer player, float p_70060_1_,
