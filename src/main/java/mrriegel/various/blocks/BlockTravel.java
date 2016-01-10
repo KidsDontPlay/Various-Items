@@ -10,6 +10,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -17,14 +18,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class BlockTravel extends BlockContainer {
-//	public static final PropertyBool STATE = PropertyBool.create("state");
+	// public static final PropertyBool STATE = PropertyBool.create("state");
 
 	public BlockTravel() {
 		super(Material.wood);
 		this.setCreativeTab(CreativeTab.tab1);
 		this.setUnlocalizedName(VariousItems.MODID + ":travelBlock");
-//		this.setDefaultState(this.blockState.getBaseState().withProperty(STATE,
-//				false));
+		// this.setDefaultState(this.blockState.getBaseState().withProperty(STATE,
+		// false));
 	}
 
 	// @Override

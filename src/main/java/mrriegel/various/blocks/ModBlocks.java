@@ -1,6 +1,7 @@
 package mrriegel.various.blocks;
 
 import mrriegel.various.VariousItems;
+import mrriegel.various.tile.TileTravel;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
@@ -12,6 +13,8 @@ public class ModBlocks {
 
 	public static void init() {
 		GameRegistry.registerBlock(travel, "travel");
+		
+		GameRegistry.registerTileEntity(TileTravel.class, "tileTravel");
 	}
 
 }
