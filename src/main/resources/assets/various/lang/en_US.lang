@@ -8,5 +8,9 @@ item.various:material_4.name=Sigma Gem
 item.various:material_5.name=Sigma Core
 
 item.various:sigmaPick.name=Sigma Pickaxe (%s Mode)
+item.various:sigmaPick.mode.normal=Normal
+item.various:sigmaPick.mode.vein=Vein
+item.various:sigmaPick.mode.detect=Detection
+item.various:sigmaPick.mode.tele=Remote
 
 various.keybinding.jetpack=Jetpack GUI

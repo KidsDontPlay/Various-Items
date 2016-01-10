@@ -37,6 +37,7 @@ public class GuiJetpack extends GuiContainer {
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
+		drawTexturedModalRect(k + 80, l + 13, 176, 34, 18, 18);
 		drawTexturedModalRect(k + 110, l + 12, 176, 0, 54, 18);
 		int percent = (int) ((NBTHelper.getInt(mc.thePlayer.getCurrentArmor(2),
 				"fuel") * 100f) / ConfigHandler.jetpackMaxFuel);

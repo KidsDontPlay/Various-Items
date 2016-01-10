@@ -18,7 +18,7 @@ public class ConfigHandler {
 		jetpackMaxVerticalSpeed = config.get(Configuration.CATEGORY_GENERAL,
 				"jetpackMaxVerticalSpeed", 0.5).getDouble();
 		jetpackAcceleration = config.get(Configuration.CATEGORY_GENERAL,
-				"jetpackAcceleration", 0.2).getDouble();
+				"jetpackAcceleration", 0.12).getDouble();
 		jetpackMaxHorizontalSpeed = config.get(Configuration.CATEGORY_GENERAL,
 				"jetpackMaxHorizontalSpeed", 0.3).getDouble();
 		jetpackMaxFuel = config.get(Configuration.CATEGORY_GENERAL,

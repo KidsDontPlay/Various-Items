@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMaterial extends Item {
-	public final int number = 6;
+	public static final int NUMBER = 6;
 
 	public ItemMaterial() {
 		super();
@@ -23,7 +23,7 @@ public class ItemMaterial extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for (int i = 0; i < number; i++) {
+		for (int i = 0; i < NUMBER; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
