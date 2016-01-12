@@ -5,34 +5,39 @@ import java.util.List;
 import mrriegel.various.CreativeTab;
 import mrriegel.various.VariousItems;
 import mrriegel.various.config.ConfigHandler;
-import mrriegel.various.gui.jetpack.ContainerJetPack;
-import mrriegel.various.handler.GuiHandler;
 import mrriegel.various.helper.NBTHelper;
 import mrriegel.various.network.JetpackMessage;
 import mrriegel.various.network.PacketHandler;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.EnumHelper;
 
 import org.lwjgl.input.Keyboard;
 
 public class ItemJetpack extends ItemArmor {
+	public static ArmorMaterial ARMOR = EnumHelper
+			.addArmorMaterial("jet", VariousItems.MODID + ":textures/armor/jetpack.png", 10000,
+					new int[] { 1, 1, 1, 1 }, 0);
 
 	public ItemJetpack() {
-		super(ArmorMaterial.IRON, 0, 1);
+		super(ARMOR, 0, 1);
 		this.setCreativeTab(CreativeTab.tab1);
 		this.setUnlocalizedName(VariousItems.MODID + ":jetpack");
 	}
+
+
+	@Override
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
+			String type) {
+		return VariousItems.MODID + ":textures/armor/jetpack.png";
+	}
+
 
 	@Override
 	public int getItemEnchantability() {

@@ -1,12 +1,13 @@
 package mrriegel.various.proxy;
 
-import mrriegel.various.CraftingRecipes;
 import mrriegel.various.VariousItems;
-import mrriegel.various.blocks.ModBlocks;
 import mrriegel.various.config.ConfigHandler;
 import mrriegel.various.handler.GuiHandler;
 import mrriegel.various.handler.KeyHandler;
-import mrriegel.various.items.ModItems;
+import mrriegel.various.init.CraftingRecipes;
+import mrriegel.various.init.ModBlocks;
+import mrriegel.various.init.ModEntities;
+import mrriegel.various.init.ModItems;
 import mrriegel.various.network.PacketHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,16 +27,12 @@ public class CommonProxy {
 				new GuiHandler());
 		ModBlocks.init();
 		ModItems.init();
+		ModEntities.init();
 		CraftingRecipes.init();
-		registerRenderers();
 		MinecraftForge.EVENT_BUS.register(new KeyHandler());
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
-
-	}
-
-	public void registerRenderers() {
 
 	}
 }

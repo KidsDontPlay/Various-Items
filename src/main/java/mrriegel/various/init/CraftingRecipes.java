@@ -1,8 +1,6 @@
-package mrriegel.various;
+package mrriegel.various.init;
 
-import mrriegel.various.items.ModItems;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 

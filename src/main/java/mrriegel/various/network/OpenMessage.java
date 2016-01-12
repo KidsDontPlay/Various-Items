@@ -2,7 +2,6 @@ package mrriegel.various.network;
 
 import io.netty.buffer.ByteBuf;
 import mrriegel.various.VariousItems;
-import mrriegel.various.helper.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;

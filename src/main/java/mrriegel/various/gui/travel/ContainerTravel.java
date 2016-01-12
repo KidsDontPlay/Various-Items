@@ -1,13 +1,9 @@
 package mrriegel.various.gui.travel;
 
-import mrriegel.various.config.ConfigHandler;
-import mrriegel.various.gui.CrunchItemInventory;
-import mrriegel.various.helper.NBTHelper;
-import mrriegel.various.items.ModItems;
+import mrriegel.various.init.ModItems;
 import mrriegel.various.tile.CrunchTEInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -58,7 +54,8 @@ public class ContainerTravel extends Container {
 						&& this.mergeItemStack(itemstack1, 0, 1, false)) {
 					merged = true;
 				}
-				if (!merged && itemstack1.getItem() == ModItems.travel
+
+				if (!merged && itemstack1.getItem() == ModItems.travelRecipe
 						&& this.mergeItemStack(itemstack1, 1, 2, false))
 					merged = true;
 				if (!merged)

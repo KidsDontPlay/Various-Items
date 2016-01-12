@@ -1,7 +1,7 @@
 package mrriegel.various.handler;
 
 import mrriegel.various.VariousItems;
-import mrriegel.various.items.ModItems;
+import mrriegel.various.init.ModItems;
 import mrriegel.various.network.OpenMessage;
 import mrriegel.various.network.PacketHandler;
 import net.minecraft.client.Minecraft;

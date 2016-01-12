@@ -2,53 +2,102 @@ package mrriegel.various.tile;
 
 import java.util.List;
 
-import mrriegel.various.items.ModItems;
-import net.minecraft.block.Block;
-import net.minecraft.entity.monster.EntityMob;
+import mrriegel.various.blocks.BlockTravel;
+import mrriegel.various.helper.NBTHelper;
+import mrriegel.various.init.ModItems;
+import mrriegel.various.items.ItemTravelRecipe;
+import mrriegel.various.network.PacketHandler;
+import mrriegel.various.network.ParticleMessage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileTravel extends CrunchTEInventory implements ITickable {
 
 	private int count;
 	private boolean start;
-	private String player;
 
 	public TileTravel() {
 		super(2);
-		player = ".........";
 	}
 
 	@Override
 	protected void readSyncableDataFromNBT(NBTTagCompound tag) {
 		count = tag.getInteger("count");
 		start = tag.getBoolean("start");
-		player = tag.getString("player");
 	}
 
 	@Override
 	protected void writeSyncableDataToNBT(NBTTagCompound tag) {
 		tag.setInteger("count", count);
 		tag.setBoolean("start", start);
-		tag.setString("player", player);
 	}
 
 	@Override
 	public void update() {
 		if (getStackInSlot(1) == null)
 			return;
+		if (worldObj.isRemote)
+			return;
 		boolean advanced = getStackInSlot(1).getItemDamage() == 1;
-		redstone funzt nich
 		if (worldObj.isBlockPowered(pos) && getStackInSlot(0) != null
 				&& getStackInSlot(0).stackSize > 0) {
-			worldObj.spawnParticle(EnumParticleTypes.PORTAL, getPos().getX()
-					+ worldObj.rand.nextDouble(), getPos().getY() + .4,
-					getPos().getZ() + worldObj.rand.nextDouble(), 0, 0, 0, 0);
+			if (!worldObj.getBlockState(pos).getValue(BlockTravel.STATE))
+				BlockTravel.setState(worldObj, pos,
+						worldObj.getBlockState(pos), true);
+			if (isPlayerOn()) {
+				EntityPlayer player = getPlayer();
+				if (!start
+						&& NBTHelper.getBoolean(getStackInSlot(1), "bound")
+						&& (advanced || worldObj.provider.getDimensionId() == NBTHelper
+								.getInt(getStackInSlot(1), "dimension"))) {
+					start = true;
+					player.addChatMessage(new ChatComponentText("Start..."));
+					worldObj.markBlockForUpdate(pos);
+
+				}
+			}
+		} else if (worldObj.getBlockState(pos).getValue(BlockTravel.STATE))
+			BlockTravel.setState(worldObj, pos, worldObj.getBlockState(pos),
+					false);
+
+		if (start) {
+			if (!isPlayerOn()) {
+				start = false;
+				count = 0;
+				return;
+			}
+			EntityPlayer player = getPlayer();
+			count++;
+			PacketHandler.INSTANCE.sendToAllAround(new ParticleMessage(
+					ParticleMessage.TRAVEL, player.posX, player.posY,
+					player.posZ),
+					new TargetPoint(player.worldObj.provider.getDimensionId(),
+							player.posX, player.posY, player.posZ, 20));
+		}
+		if (count >= 60) {
+			count = 0;
+			start = false;
+			if (!isPlayerOn())
+				return;
+			World end = MinecraftServer.getServer().worldServerForDimension(
+					NBTHelper.getInt(getStackInSlot(1), "dimension"));
+			getStackInSlot(0).stackSize--;
+			if (getStackInSlot(0).stackSize == 0)
+				setInventorySlotContents(0, null);
+			worldObj.markBlockForUpdate(pos);
+			ItemTravelRecipe.teleportPlayerEntity(getPlayer(), worldObj, end,
+					new BlockPos(NBTHelper.getDouble(getStackInSlot(1), "x"),
+							NBTHelper.getDouble(getStackInSlot(1), "y") + .1,
+							NBTHelper.getDouble(getStackInSlot(1), "z")));
 		}
 
 	}
@@ -61,12 +110,20 @@ public class TileTravel extends CrunchTEInventory implements ITickable {
 		return !lis.isEmpty();
 	}
 
+	EntityPlayer getPlayer() {
+		AxisAlignedBB f = AxisAlignedBB.fromBounds(pos.getX(), pos.getY() + 1,
+				pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
+		List<EntityPlayer> lis = worldObj.getEntitiesWithinAABB(
+				EntityPlayer.class, f);
+		return lis.get(0);
+	}
+
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (slot == 0)
 			return stack.isItemEqual(new ItemStack(ModItems.material));
 		if (slot == 1)
-			return stack.getItem() == ModItems.travel;
+			return stack.getItem() == ModItems.travelRecipe;
 		return false;
 	}
 

@@ -7,10 +7,17 @@ item.various:material_3.name=Sigma Nugget
 item.various:material_4.name=Sigma Gem
 item.various:material_5.name=Sigma Core
 
+item.various:travelRecipe_0.name=Travel Recipe
+item.various:travelRecipe_1.name=Advanced Travel Recipe
+
+item.various:pebble.name=Pebble
+
 item.various:sigmaPick.name=Sigma Pickaxe (%s Mode)
 item.various:sigmaPick.mode.normal=Normal
 item.various:sigmaPick.mode.vein=Vein
 item.various:sigmaPick.mode.detect=Detection
 item.various:sigmaPick.mode.tele=Remote
+
+tile.various:travelPort.name=Travel Port
 
 various.keybinding.jetpack=Jetpack GUI

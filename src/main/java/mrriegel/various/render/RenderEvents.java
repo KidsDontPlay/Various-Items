@@ -4,14 +4,11 @@ import java.awt.Color;
 
 import mrriegel.various.config.ConfigHandler;
 import mrriegel.various.helper.NBTHelper;
-import mrriegel.various.items.ModItems;
+import mrriegel.various.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

@@ -1,17 +1,13 @@
 package mrriegel.various.gui;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class CrunchItemContainer extends Container {
 	public CrunchItemInventory inv;
@@ -42,7 +38,7 @@ public abstract class CrunchItemContainer extends Container {
 		return inv.isUseableByPlayer(p_75145_1_);
 	}
 
-	public void onSlotChanged() {
+	public void slotChanged() {
 		writeInv(storedInv);
 		playerInv.mainInventory[playerInv.currentItem] = storedInv;
 	}

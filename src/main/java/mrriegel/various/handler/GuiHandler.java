@@ -1,5 +1,8 @@
 package mrriegel.various.handler;
 
+import mrriegel.various.gui.filter.ContainerFilter;
+import mrriegel.various.gui.filter.GuiFilter;
+import mrriegel.various.gui.filter.InventoryFilter;
 import mrriegel.various.gui.jetpack.ContainerJetPack;
 import mrriegel.various.gui.jetpack.GuiJetpack;
 import mrriegel.various.gui.jetpack.InventoryJetpack;
@@ -13,7 +16,8 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
 	public static final int JETPACK = 0;
-	public static final int TRAVELBLOCK = 100;
+	public static final int FILTER = 1;
+	public static final int TRAVELPORT = 100;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
@@ -21,10 +25,13 @@ public class GuiHandler implements IGuiHandler {
 		if (ID == JETPACK)
 			return new ContainerJetPack(player.inventory, new InventoryJetpack(
 					player.getCurrentArmor(2)));
-		if (ID == TRAVELBLOCK)
+		if (ID == TRAVELPORT)
 			return new ContainerTravel(player.inventory,
 					(CrunchTEInventory) world.getTileEntity(new BlockPos(x, y,
 							z)));
+		if (ID == FILTER)
+			return new ContainerFilter(player.inventory, new InventoryFilter(
+					player.getHeldItem()));
 		return null;
 	}
 
@@ -34,10 +41,13 @@ public class GuiHandler implements IGuiHandler {
 		if (ID == JETPACK)
 			return new GuiJetpack(new ContainerJetPack(player.inventory,
 					new InventoryJetpack(player.getCurrentArmor(2))));
-		if (ID == TRAVELBLOCK)
+		if (ID == TRAVELPORT)
 			return new GuiTravel(new ContainerTravel(player.inventory,
 					(CrunchTEInventory) world.getTileEntity(new BlockPos(x, y,
 							z))));
+		if (ID == FILTER)
+			return new GuiFilter(new ContainerFilter(player.inventory,
+					new InventoryFilter(player.getHeldItem())));
 		return null;
 	}
 

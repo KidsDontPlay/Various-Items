@@ -4,9 +4,7 @@ import mrriegel.various.VariousItems;
 import mrriegel.various.config.ConfigHandler;
 import mrriegel.various.helper.NBTHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 

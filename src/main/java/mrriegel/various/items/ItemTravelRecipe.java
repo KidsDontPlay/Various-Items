@@ -6,6 +6,8 @@ import java.util.List;
 import mrriegel.various.CreativeTab;
 import mrriegel.various.VariousItems;
 import mrriegel.various.helper.NBTHelper;
+import mrriegel.various.init.ModItems;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,13 +30,13 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemTravel extends Item {
+public class ItemTravelRecipe extends Item {
 
-	public ItemTravel() {
+	public ItemTravelRecipe() {
 		super();
 		this.setCreativeTab(CreativeTab.tab1);
 		this.setHasSubtypes(true);
-		this.setUnlocalizedName(VariousItems.MODID + ":travelSheet");
+		this.setUnlocalizedName(VariousItems.MODID + ":travelRecipe");
 	}
 
 	@Override
@@ -121,8 +123,8 @@ public class ItemTravel extends Item {
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
 	}
 
-	public static Entity teleportPlayerEntity(Entity entity, World start, World end,
-			BlockPos exitLoc) {
+	public static Entity teleportPlayerEntity(Entity entity, World start,
+			World end, BlockPos exitLoc) {
 		WorldServer startWorld = (WorldServer) start, endWorld = (WorldServer) end;
 		boolean dimensionalTransport = startWorld.provider.getDimensionId() != endWorld.provider
 				.getDimensionId();

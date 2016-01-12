@@ -1,16 +1,15 @@
 package mrriegel.various.network;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.Random;
 
-import io.netty.buffer.ByteBuf;
-import mrriegel.various.VariousItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -18,6 +17,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class ParticleMessage implements IMessage,
 		IMessageHandler<ParticleMessage, IMessage> {
 	public static final int JETPACK = 0;
+	public static final int TRAVEL = 1;
 	int id;
 	double x, y, z;
 
@@ -50,6 +50,13 @@ public class ParticleMessage implements IMessage,
 								EnumParticleTypes.FLAME,
 								v.xCoord + ran.nextDouble() / 2, v.yCoord,
 								v.zCoord + ran.nextDouble() / 2, 0, -.5, 0, 0);
+				if (message.id == TRAVEL)
+					for (int i = 0; i < 18; i++)
+						Minecraft.getMinecraft().theWorld.spawnParticle(
+								EnumParticleTypes.PORTAL,
+								message.x + ran.nextGaussian() / 2.5 - .25,
+								message.y + 1.1, message.z + ran.nextGaussian()
+										/ 2.5 - .25, 0, 0, 0, 0);
 
 			}
 		});

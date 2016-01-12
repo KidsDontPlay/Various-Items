@@ -1,9 +1,8 @@
 package mrriegel.various.gui;
 
-import mrriegel.various.items.ModItems;
+import mrriegel.various.init.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IChatComponent;

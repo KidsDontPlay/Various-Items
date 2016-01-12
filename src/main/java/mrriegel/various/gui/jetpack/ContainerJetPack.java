@@ -1,18 +1,15 @@
 package mrriegel.various.gui.jetpack;
 
-import mrriegel.various.VariousItems;
 import mrriegel.various.config.ConfigHandler;
 import mrriegel.various.gui.CrunchItemInventory;
-import mrriegel.various.handler.GuiHandler;
 import mrriegel.various.helper.NBTHelper;
-import mrriegel.various.items.ModItems;
+import mrriegel.various.init.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ContainerJetPack extends Container {
 	InventoryPlayer playerInv;

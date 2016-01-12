@@ -1,0 +1,10 @@
+{
+    "variants" : {
+        "state=true" : {
+            "model" : "various:travelPort_ready"
+        }, 
+        "state=false" : {
+            "model" : "various:travelPort"
+        }
+    }
+}
