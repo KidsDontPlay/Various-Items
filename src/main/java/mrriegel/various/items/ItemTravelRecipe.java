@@ -7,7 +7,6 @@ import mrriegel.various.CreativeTab;
 import mrriegel.various.VariousItems;
 import mrriegel.various.helper.NBTHelper;
 import mrriegel.various.init.ModItems;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

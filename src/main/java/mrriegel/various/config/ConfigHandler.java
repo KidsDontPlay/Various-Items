@@ -10,7 +10,7 @@ public class ConfigHandler {
 
 	public static double jetpackMaxVerticalSpeed, jetpackAcceleration,
 			jetpackMaxHorizontalSpeed;
-	public static int jetpackMaxFuel,fuelValueLava;
+	public static int jetpackMaxFuel, fuelValueLava;
 
 	public static void refreshConfig(File file) {
 		config = new Configuration(file);

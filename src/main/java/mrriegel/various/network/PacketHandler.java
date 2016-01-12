@@ -17,6 +17,8 @@ public class PacketHandler {
 				Side.SERVER);
 		INSTANCE.registerMessage(ParticleMessage.class, ParticleMessage.class,
 				id++, Side.CLIENT);
+		INSTANCE.registerMessage(ButtonMessage.class, ButtonMessage.class,
+				id++, Side.SERVER);
 	}
 
 }

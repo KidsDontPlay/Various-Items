@@ -1,7 +1,7 @@
 package mrriegel.various.gui.filter;
 
-import net.minecraft.item.ItemStack;
 import mrriegel.various.gui.CrunchItemInventory;
+import net.minecraft.item.ItemStack;
 
 public class InventoryFilter extends CrunchItemInventory {
 

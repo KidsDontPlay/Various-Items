@@ -10,6 +10,7 @@ import mrriegel.various.helper.NBTHelper;
 import mrriegel.various.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -65,21 +66,9 @@ public class ItemSigmaPick extends ItemPickaxe {
 			stack.setTagCompound(new NBTTagCompound());
 		if (NBTHelper.getString(stack, "mode").equals(""))
 			NBTHelper.setString(stack, "mode", Mode.NORMAL.toString());
-		if (worldIn.getTotalWorldTime() % 200 == 0
+		if (worldIn.getTotalWorldTime() % 500 == 0
 				&& stack.getItemDamage() < stack.getMaxDamage())
 			stack.setItemDamage(stack.getItemDamage() - 1);
-		// if (!NBTHelper.getString(stack, "mode").equals(
-		// NBTHelper.getString(stack, "last"))) {
-		// NBTHelper
-		// .setString(stack, "last",
-		// Mode.valueOf(NBTHelper.getString(stack, "mode"))
-		// .toString());
-		// System.out.println("change");
-		// if (entityIn instanceof EntityPlayer) {
-		// EntityPlayer player = (EntityPlayer) entityIn;
-		// player.inventory.mainInventory[player.inventory.currentItem] = stack;
-		// }
-		// }
 	}
 
 	@Override
@@ -96,10 +85,6 @@ public class ItemSigmaPick extends ItemPickaxe {
 	public ItemStack onItemRightClick(ItemStack stack, World world,
 			EntityPlayer player) {
 		if (player.isSneaking()) {
-			// NBTHelper
-			// .setString(stack, "last",
-			// Mode.valueOf(NBTHelper.getString(stack, "mode"))
-			// .toString());
 			NBTHelper.setString(stack, "mode",
 					Mode.valueOf(NBTHelper.getString(stack, "mode")).next()
 							.toString());
@@ -132,7 +117,9 @@ public class ItemSigmaPick extends ItemPickaxe {
 		if (stack.getTagCompound() == null)
 			return super.getDigSpeed(stack, state);
 		if (Mode.valueOf(NBTHelper.getString(stack, "mode")) == Mode.DETECT)
-			return super.getDigSpeed(stack, state) / 7f;
+			return super.getDigSpeed(stack, state)
+					/ (7f * EnchantmentHelper.getEnchantmentLevel(
+							Enchantment.efficiency.effectId, stack));
 		return super.getDigSpeed(stack, state);
 	}
 
@@ -165,7 +152,6 @@ public class ItemSigmaPick extends ItemPickaxe {
 			break;
 
 		}
-
 		return super.onBlockStartBreak(stack, pos, player);
 	}
 
@@ -286,7 +272,7 @@ public class ItemSigmaPick extends ItemPickaxe {
 		return false;
 	}
 
-	private List<BlockPos> getCube(BlockPos pos) {
+	public static List<BlockPos> getCube(BlockPos pos) {
 		List<BlockPos> lis = new ArrayList<BlockPos>();
 		for (int i = -1; i <= 1; i++)
 			for (int j = -1; j <= 1; j++)
@@ -304,5 +290,14 @@ public class ItemSigmaPick extends ItemPickaxe {
 				lis.add(new BlockPos(pos.getX() + i, pos.getY(), pos.getZ() + k));
 		return lis;
 
+	}
+
+	@Override
+	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+		super.onCreated(stack, worldIn, playerIn);
+		if (stack.getTagCompound() == null)
+			stack.setTagCompound(new NBTTagCompound());
+		if (NBTHelper.getString(stack, "mode").equals(""))
+			NBTHelper.setString(stack, "mode", Mode.NORMAL.toString());
 	}
 }

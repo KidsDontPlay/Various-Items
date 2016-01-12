@@ -1,11 +1,8 @@
 package mrriegel.various.entity;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -23,13 +20,14 @@ public class EntityPebble extends EntityThrowable {
 		super(worldIn);
 	}
 
+	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 		if (p_70184_1_.entityHit != null) {
 			int i = 1;
 
 			p_70184_1_.entityHit.attackEntityFrom(
 					DamageSource.causeThrownDamage(this, this.getThrower()),
-					(float) i);
+					i);
 		}
 
 		if (!this.worldObj.isRemote) {

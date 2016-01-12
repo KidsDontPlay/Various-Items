@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mrriegel.various.VariousItems;
+import mrriegel.various.network.ButtonMessage;
+import mrriegel.various.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Container;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -30,8 +30,8 @@ public class GuiFilter extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		for (int i = 0; i < 9; i++) {
-			buttonList
-					.add(new Button(i, guiLeft + 8 + 18 * i, guiTop + 35, ""));
+			buttonList.add(new Button(i, guiLeft + 8 + 18 * i, guiTop + 35,
+					((ContainerFilter) inventorySlots).metas.get(i)));
 		}
 	}
 
@@ -45,7 +45,7 @@ public class GuiFilter extends GuiContainer {
 		drawTexturedModalRect(k, l + 15, 0, 0, xSize, ySize);
 		drawTexturedModalRect(k, l, 0, 0, xSize, 20);
 		for (int i = 0; i < 9; i++)
-			drawTexturedModalRect(k + 7 + 18 * i, l + 16, 176, 34, 18, 18);
+			drawTexturedModalRect(k + 7 + 18 * i, l + 14, 176, 34, 18, 18);
 
 	}
 
@@ -53,6 +53,19 @@ public class GuiFilter extends GuiContainer {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 		((Button) button).meta = !((Button) button).meta;
+		ContainerFilter con = (ContainerFilter) Minecraft.getMinecraft().thePlayer.openContainer;
+		List<Boolean> bools = new ArrayList<Boolean>();
+		for (GuiButton o : buttonList) {
+			Button b = (Button) o;
+			bools.add(b.meta);
+		}
+		int id = 0;
+		for (boolean b : bools) {
+			con.metas.put(id, b);
+			id++;
+		}
+		con.slotChanged();
+		PacketHandler.INSTANCE.sendToServer(new ButtonMessage(bools));
 	}
 
 	class Button extends GuiButton {

@@ -35,6 +35,6 @@ public class ItemMaterial extends Item {
 
 	@Override
 	public boolean hasEffect(ItemStack stack) {
-		return stack.getItemDamage()>1;
+		return stack.getItemDamage() > 1;
 	}
 }

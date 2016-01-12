@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -21,9 +20,9 @@ import net.minecraftforge.common.util.EnumHelper;
 import org.lwjgl.input.Keyboard;
 
 public class ItemJetpack extends ItemArmor {
-	public static ArmorMaterial ARMOR = EnumHelper
-			.addArmorMaterial("jet", VariousItems.MODID + ":textures/armor/jetpack.png", 10000,
-					new int[] { 1, 1, 1, 1 }, 0);
+	public static ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("jet",
+			VariousItems.MODID + ":textures/armor/jetpack.png", 1000,
+			new int[] { 2, 2, 2, 2 }, 0);
 
 	public ItemJetpack() {
 		super(ARMOR, 0, 1);
@@ -31,13 +30,11 @@ public class ItemJetpack extends ItemArmor {
 		this.setUnlocalizedName(VariousItems.MODID + ":jetpack");
 	}
 
-
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
 		return VariousItems.MODID + ":textures/armor/jetpack.png";
 	}
-
 
 	@Override
 	public int getItemEnchantability() {
@@ -79,6 +76,14 @@ public class ItemJetpack extends ItemArmor {
 	@Override
 	public void onArmorTick(World world, EntityPlayer player,
 			ItemStack itemStack) {
+		itemStack.setItemDamage(0);
+		if (player.isInLava()
+				&& world.provider.getDimensionId() == -1
+				&& NBTHelper.getInt(player.getCurrentArmor(2), "fuel") < ConfigHandler.jetpackMaxFuel
+				&& world.getTotalWorldTime() % 2 == 0) {
+			NBTHelper.setInteger(player.getCurrentArmor(2), "fuel",
+					NBTHelper.getInt(player.getCurrentArmor(2), "fuel") + 1);
+		}
 		if (world.isRemote && Keyboard.isKeyDown(Keyboard.KEY_SPACE)
 				&& NBTHelper.getInt(player.getCurrentArmor(2), "fuel") > 0
 				&& Minecraft.getMinecraft().inGameHasFocus) {

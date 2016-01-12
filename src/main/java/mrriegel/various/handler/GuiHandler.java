@@ -3,6 +3,9 @@ package mrriegel.various.handler;
 import mrriegel.various.gui.filter.ContainerFilter;
 import mrriegel.various.gui.filter.GuiFilter;
 import mrriegel.various.gui.filter.InventoryFilter;
+import mrriegel.various.gui.food.ContainerFood;
+import mrriegel.various.gui.food.GuiFood;
+import mrriegel.various.gui.food.InventoryFood;
 import mrriegel.various.gui.jetpack.ContainerJetPack;
 import mrriegel.various.gui.jetpack.GuiJetpack;
 import mrriegel.various.gui.jetpack.InventoryJetpack;
@@ -17,6 +20,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 public class GuiHandler implements IGuiHandler {
 	public static final int JETPACK = 0;
 	public static final int FILTER = 1;
+	public static final int FOOD = 2;
 	public static final int TRAVELPORT = 100;
 
 	@Override
@@ -32,6 +36,9 @@ public class GuiHandler implements IGuiHandler {
 		if (ID == FILTER)
 			return new ContainerFilter(player.inventory, new InventoryFilter(
 					player.getHeldItem()));
+		if (ID == FOOD)
+			return new ContainerFood(player, player.inventory,
+					new InventoryFood(player.getHeldItem()));
 		return null;
 	}
 
@@ -48,6 +55,9 @@ public class GuiHandler implements IGuiHandler {
 		if (ID == FILTER)
 			return new GuiFilter(new ContainerFilter(player.inventory,
 					new InventoryFilter(player.getHeldItem())));
+		if (ID == FOOD)
+			return new GuiFood(new ContainerFood(player, player.inventory,
+					new InventoryFood(player.getHeldItem())));
 		return null;
 	}
 

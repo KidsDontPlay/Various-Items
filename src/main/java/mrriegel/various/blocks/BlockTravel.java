@@ -7,13 +7,11 @@ import mrriegel.various.VariousItems;
 import mrriegel.various.handler.GuiHandler;
 import mrriegel.various.tile.TileTravel;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -25,7 +23,8 @@ public class BlockTravel extends BlockContainer {
 	public static final PropertyBool STATE = PropertyBool.create("state");
 
 	public BlockTravel() {
-		super(Material.wood);
+		super(Material.iron);
+		this.setHardness(3.5F);
 		this.setCreativeTab(CreativeTab.tab1);
 		this.setUnlocalizedName(VariousItems.MODID + ":travelPort");
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STATE,
@@ -64,6 +63,7 @@ public class BlockTravel extends BlockContainer {
 
 	}
 
+	@Override
 	public int getRenderType() {
 		return 3;
 	}
@@ -86,9 +86,10 @@ public class BlockTravel extends BlockContainer {
 			IBlockState state, Random rand) {
 		super.randomDisplayTick(worldIn, pos, state, rand);
 		if (state.getValue(STATE))
-			worldIn.spawnParticle(EnumParticleTypes.PORTAL, pos.getX()
-					+ worldIn.rand.nextDouble(), pos.getY() + .4, pos.getZ()
-					+ worldIn.rand.nextDouble(), 0, 0, 0, 0);
+			for (int i = 0; i < 5; i++)
+				worldIn.spawnParticle(EnumParticleTypes.PORTAL, pos.getX()
+						+ worldIn.rand.nextDouble(), pos.getY() + .4,
+						pos.getZ() + worldIn.rand.nextDouble(), 0, 0, 0, 0);
 	}
 
 }

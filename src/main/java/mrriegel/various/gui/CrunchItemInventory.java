@@ -5,7 +5,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IChatComponent;
+import net.minecraftforge.common.util.Constants;
 
 public class CrunchItemInventory implements IInventory {
 	protected final int INVSIZE;
@@ -21,6 +23,18 @@ public class CrunchItemInventory implements IInventory {
 		if (!storedInv.hasTagCompound()) {
 			storedInv.setTagCompound(new NBTTagCompound());
 		}
+		if (storedInv != null && storedInv.getTagCompound() != null) {
+			NBTTagList invList = storedInv.getTagCompound().getTagList(
+					"crunchItem", Constants.NBT.TAG_COMPOUND);
+			for (int i = 0; i < invList.tagCount(); i++) {
+				NBTTagCompound stackTag = invList.getCompoundTagAt(i);
+				int slot = stackTag.getByte("Slot");
+				if (slot >= 0 && slot < getInv().length) {
+					setInventorySlotContents(slot,
+							ItemStack.loadItemStackFromNBT(stackTag));
+				}
+			}
+		}
 	}
 
 	public CrunchItemInventory(int size, ItemStack stack) {
@@ -31,6 +45,7 @@ public class CrunchItemInventory implements IInventory {
 		return inv;
 	}
 
+	@Override
 	public void clear() {
 		inv = new ItemStack[INVSIZE];
 	}

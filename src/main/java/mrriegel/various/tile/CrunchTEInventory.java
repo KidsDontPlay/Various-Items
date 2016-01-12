@@ -13,7 +13,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
-public abstract class CrunchTEInventory extends TileEntity implements IInventory {
+public abstract class CrunchTEInventory extends TileEntity implements
+		IInventory {
 
 	public final int INVSIZE;
 	protected ItemStack[] inv;
@@ -41,7 +42,8 @@ public abstract class CrunchTEInventory extends TileEntity implements IInventory
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		NBTTagList invList = tag.getTagList("crunchTE", Constants.NBT.TAG_COMPOUND);
+		NBTTagList invList = tag.getTagList("crunchTE",
+				Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < invList.tagCount(); i++) {
 			NBTTagCompound stackTag = invList.getCompoundTagAt(i);
 			int slot = stackTag.getByte("Slot");
@@ -77,8 +79,8 @@ public abstract class CrunchTEInventory extends TileEntity implements IInventory
 	public Packet getDescriptionPacket() {
 		NBTTagCompound syncData = new NBTTagCompound();
 		this.writeSyncableDataToNBT(syncData);
-		return new S35PacketUpdateTileEntity(new BlockPos(this.getPos().getX(), this.getPos()
-				.getY(), this.getPos().getZ()), 1, syncData);
+		return new S35PacketUpdateTileEntity(new BlockPos(this.getPos().getX(),
+				this.getPos().getY(), this.getPos().getZ()), 1, syncData);
 	}
 
 	@Override
@@ -137,9 +139,10 @@ public abstract class CrunchTEInventory extends TileEntity implements IInventory
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
-		return this.worldObj.getTileEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(),
-				this.getPos().getZ())) != this ? false : p_70300_1_.getDistanceSq(this.getPos()
-				.getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ() + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(new BlockPos(this.getPos().getX(),
+				this.getPos().getY(), this.getPos().getZ())) != this ? false
+				: p_70300_1_.getDistanceSq(this.getPos().getX() + 0.5D, this
+						.getPos().getY() + 0.5D, this.getPos().getZ() + 0.5D) <= 64.0D;
 
 	}
 

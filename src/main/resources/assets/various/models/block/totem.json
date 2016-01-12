@@ -1,0 +1,7 @@
+{
+    "parent" : "various:model/stamm", 
+    "textures" : {
+        "deck" : "various:blocks/totem_deck", 
+        "side" : "various:blocks/totem_side"
+    }
+}

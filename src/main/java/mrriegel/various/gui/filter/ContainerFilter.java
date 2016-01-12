@@ -1,15 +1,12 @@
 package mrriegel.various.gui.filter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import mrriegel.various.config.ConfigHandler;
 import mrriegel.various.gui.CrunchItemInventory;
-import mrriegel.various.helper.NBTHelper;
 import mrriegel.various.init.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -23,7 +20,7 @@ public class ContainerFilter extends Container {
 	InventoryPlayer playerInv;
 	CrunchItemInventory inv;
 	ItemStack storedInv;
-	List<Integer> metas;
+	public Map<Integer, Boolean> metas;
 
 	class FilterSlot extends Slot {
 
@@ -43,7 +40,9 @@ public class ContainerFilter extends Container {
 		this.playerInv = playerInv;
 		this.inv = inv;
 		this.storedInv = playerInv.getCurrentItem();
-		metas=new ArrayList<Integer>();
+		metas = new HashMap<Integer, Boolean>();
+		for (int i = 0; i < 9; i++)
+			metas.put(i, true);
 		if (storedInv != null && storedInv.getTagCompound() != null) {
 			NBTTagList invList = storedInv.getTagCompound().getTagList(
 					"crunchItem", Constants.NBT.TAG_COMPOUND);
@@ -57,13 +56,13 @@ public class ContainerFilter extends Container {
 			}
 			NBTTagList metaList = storedInv.getTagCompound().getTagList(
 					"metas", Constants.NBT.TAG_COMPOUND);
-			for (int i = 0; i < invList.tagCount(); i++) {
-				NBTTagCompound meta=invList.getCompoundTagAt(i);
-				metas.set(i, meta.getInteger("meta"));
+			for (int i = 0; i < metaList.tagCount(); i++) {
+				NBTTagCompound meta = metaList.getCompoundTagAt(i);
+				metas.put(i, meta.getBoolean("meta"));
 			}
 		}
 		for (int i = 0; i < 9; i++)
-			this.addSlotToContainer(new Slot(inv, i, 4 + 18 * i, 13));
+			this.addSlotToContainer(new Slot(inv, i, 8 + 18 * i, 15));
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				this.addSlotToContainer(new Slot(playerInv, j + i * 9 + 9,
@@ -100,6 +99,33 @@ public class ContainerFilter extends Container {
 			}
 		}
 		con2.getTagCompound().setTag("crunchItem", invList);
+		NBTTagList metaList = new NBTTagList();
+		for (int i = 0; i < 9; i++) {
+			NBTTagCompound meta = new NBTTagCompound();
+			meta.setBoolean("meta", metas.get(i));
+			metaList.appendTag(meta);
+		}
+		con2.getTagCompound().setTag("metas", metaList);
+
+	}
+
+	@Override
+	public ItemStack slotClick(int slotId, int clickedButton, int mode,
+			EntityPlayer playerIn) {
+		System.out.println(String.format("%d %d %d", slotId, clickedButton,
+				mode));
+		if (slotId >= 9 || slotId == -999)
+			return super.slotClick(slotId, clickedButton, mode, playerIn);
+		if (playerInv.getItemStack() == null) {
+			getSlot(slotId).putStack(null);
+		} else {
+			ItemStack s = playerInv.getItemStack().copy();
+			if (!in(s)) {
+				s.stackSize = 1;
+				getSlot(slotId).putStack(s);
+			}
+		}
+		return playerInv.getItemStack();
 
 	}
 
@@ -113,15 +139,36 @@ public class ContainerFilter extends Container {
 			if (slotIndex <= 8) {
 				slot.putStack(null);
 			} else {
-				for(int i=0;i<9;i++){
-					ItemStack s=inventorySlots.get(i).getStack();
-					
+				int s = getSlot(itemstack1);
+				if (s != -1) {
+					ItemStack in = itemstack1.copy();
+					in.stackSize = 1;
+					getSlot(s).putStack(in);
+					getSlot(s).onSlotChanged();
+					slotChanged();
 				}
 
 			}
 		}
-
 		return null;
 	}
 
+	int getSlot(ItemStack stack) {
+		if (in(stack))
+			return -1;
+		for (int i = 0; i < 9; i++) {
+			if (!getSlot(i).getHasStack())
+				return i;
+		}
+		return -1;
+	}
+
+	boolean in(ItemStack stack) {
+		for (int i = 0; i < 9; i++) {
+			if (getSlot(i).getHasStack()
+					&& getSlot(i).getStack().isItemEqual(stack))
+				return true;
+		}
+		return false;
+	}
 }

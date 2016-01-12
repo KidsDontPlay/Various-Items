@@ -41,6 +41,7 @@ public class ContainerJetPack extends Container {
 		}
 	}
 
+	@Override
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
 

@@ -82,13 +82,13 @@ public class ParticleMessage implements IMessage,
 	public Vec3 getPointUsingAnglesRange(Vec3 start, float yaw, float pitch,
 			float range) {
 		double coordX = start.xCoord
-				+ (double) (-MathHelper.sin(yaw / 180.0F * (float) Math.PI)
-						* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range);
+				+ -MathHelper.sin(yaw / 180.0F * (float) Math.PI)
+						* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range;
 		double coordY = start.yCoord
-				+ (double) (-MathHelper.sin(pitch / 180.0F * (float) Math.PI) * range);
+				+ -MathHelper.sin(pitch / 180.0F * (float) Math.PI) * range;
 		double coordZ = start.zCoord
-				+ (double) (MathHelper.cos(yaw / 180.0F * (float) Math.PI)
-						* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range);
+				+ MathHelper.cos(yaw / 180.0F * (float) Math.PI)
+						* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range;
 		return new Vec3(coordX, coordY, coordZ);
 	}
 }

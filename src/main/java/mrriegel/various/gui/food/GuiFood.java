@@ -1,24 +1,20 @@
-package mrriegel.various.gui.travel;
-
-import mrriegel.various.VariousItems;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.util.ResourceLocation;
+package mrriegel.various.gui.food;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiTravel extends GuiContainer {
+import mrriegel.various.VariousItems;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.Container;
+import net.minecraft.util.ResourceLocation;
+
+public class GuiFood extends GuiContainer {
 	private static final ResourceLocation texture = new ResourceLocation(
 			VariousItems.MODID + ":textures/gui/jetpack.png");
 
-	public GuiTravel(ContainerTravel containerTravel) {
-		super(containerTravel);
+	public GuiFood(Container inventorySlotsIn) {
+		super(inventorySlotsIn);
 		this.xSize = 176;
 		this.ySize = 127;
-	}
-
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		mc.fontRendererObj.drawString("Travel", 6, 7, 4210752);
 	}
 
 	@Override
@@ -29,8 +25,8 @@ public class GuiTravel extends GuiContainer {
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
-		drawTexturedModalRect(k + 15, l + 20, 176, 34, 18, 18);
-		drawTexturedModalRect(k + 79, l + 12, 176, 34, 18, 18);
+		for (int i = 0; i < 9; i++)
+			drawTexturedModalRect(k + 7 + 18 * i, l + 14, 176, 34, 18, 18);
 
 	}
 

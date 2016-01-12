@@ -1,15 +1,20 @@
 package mrriegel.various.proxy;
 
 import mrriegel.various.VariousItems;
+import mrriegel.various.entity.EntityDecoy;
 import mrriegel.various.entity.EntityPebble;
 import mrriegel.various.handler.KeyHandler;
 import mrriegel.various.init.ModBlocks;
 import mrriegel.various.init.ModItems;
 import mrriegel.various.items.ItemMaterial;
 import mrriegel.various.render.PebbleRender;
+import mrriegel.various.render.RenderDecoy;
 import mrriegel.various.render.RenderEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelPig;
 import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -26,7 +31,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
-
+		registerRenderers();
 	}
 
 	@Override
@@ -34,7 +39,7 @@ public class ClientProxy extends CommonProxy {
 		super.init(event);
 		KeyHandler.init();
 		registerItemModels();
-		registerRenderers();
+
 		MinecraftForge.EVENT_BUS.register(new RenderEvents());
 	}
 
@@ -54,6 +59,9 @@ public class ClientProxy extends CommonProxy {
 				VariousItems.MODID + ":travelSheet", "inventory"));
 		mesher.register(Item.getItemFromBlock(ModBlocks.travelPort), 0,
 				new ModelResourceLocation(VariousItems.MODID + ":travelPort",
+						"inventory"));
+		mesher.register(Item.getItemFromBlock(ModBlocks.totem), 0,
+				new ModelResourceLocation(VariousItems.MODID + ":totem",
 						"inventory"));
 		mesher.register(ModItems.pebble, 0, new ModelResourceLocation(
 				VariousItems.MODID + ":pebble", "inventory"));
@@ -79,6 +87,14 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPebble.class,
 				(IRenderFactory) new PebbleRender(Minecraft.getMinecraft()
 						.getRenderManager()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityDecoy.class,
+				new IRenderFactory() {
+					@Override
+					public Render createRenderFor(RenderManager manager) {
+						return new RenderDecoy(manager, new ModelPig(), 0.7f);
+					}
+				});
+
 	}
 
 }
