@@ -8,6 +8,8 @@ import mrriegel.various.init.ModItems;
 import mrriegel.various.items.ItemTravelRecipe;
 import mrriegel.various.network.PacketHandler;
 import mrriegel.various.network.ParticleMessage;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,8 +44,12 @@ public class TileTravel extends CrunchTEInventory implements ITickable {
 
 	@Override
 	public void update() {
-		if (getStackInSlot(1) == null)
+		if (getStackInSlot(1) == null) {
+			// if (worldObj.getBlockState(pos).getValue(BlockTravel.STATE))
+			// BlockTravel.setState(worldObj, pos,
+			// worldObj.getBlockState(pos), false);
 			return;
+		}
 		if (worldObj.isRemote)
 			return;
 		boolean advanced = getStackInSlot(1).getItemDamage() == 1;
@@ -103,7 +109,7 @@ public class TileTravel extends CrunchTEInventory implements ITickable {
 
 	boolean isPlayerOn() {
 		AxisAlignedBB f = AxisAlignedBB.fromBounds(pos.getX(), pos.getY() + 1,
-				pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
+				pos.getZ(), pos.getX() + 1, pos.getY() + 1.1, pos.getZ() + 1);
 		List<EntityPlayer> lis = worldObj.getEntitiesWithinAABB(
 				EntityPlayer.class, f);
 		return !lis.isEmpty();
@@ -111,7 +117,7 @@ public class TileTravel extends CrunchTEInventory implements ITickable {
 
 	EntityPlayer getPlayer() {
 		AxisAlignedBB f = AxisAlignedBB.fromBounds(pos.getX(), pos.getY() + 1,
-				pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
+				pos.getZ(), pos.getX() + 1, pos.getY() + 1.1, pos.getZ() + 1);
 		List<EntityPlayer> lis = worldObj.getEntitiesWithinAABB(
 				EntityPlayer.class, f);
 		return lis.get(0);

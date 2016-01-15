@@ -83,12 +83,12 @@ public class ParticleMessage implements IMessage,
 			float range) {
 		double coordX = start.xCoord
 				+ -MathHelper.sin(yaw / 180.0F * (float) Math.PI)
-						* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range;
+				* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range;
 		double coordY = start.yCoord
 				+ -MathHelper.sin(pitch / 180.0F * (float) Math.PI) * range;
 		double coordZ = start.zCoord
 				+ MathHelper.cos(yaw / 180.0F * (float) Math.PI)
-						* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range;
+				* MathHelper.cos(pitch / 180.0F * (float) Math.PI) * range;
 		return new Vec3(coordX, coordY, coordZ);
 	}
 }

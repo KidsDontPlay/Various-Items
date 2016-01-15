@@ -8,7 +8,6 @@ import mrriegel.various.gui.food.InventoryFood;
 import mrriegel.various.handler.GuiHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;

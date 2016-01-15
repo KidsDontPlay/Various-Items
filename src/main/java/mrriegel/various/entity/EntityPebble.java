@@ -26,8 +26,7 @@ public class EntityPebble extends EntityThrowable {
 			int i = 1;
 
 			p_70184_1_.entityHit.attackEntityFrom(
-					DamageSource.causeThrownDamage(this, this.getThrower()),
-					i);
+					DamageSource.causeThrownDamage(this, this.getThrower()), i);
 		}
 
 		if (!this.worldObj.isRemote) {

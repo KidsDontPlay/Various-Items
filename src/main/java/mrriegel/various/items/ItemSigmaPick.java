@@ -118,8 +118,8 @@ public class ItemSigmaPick extends ItemPickaxe {
 			return super.getDigSpeed(stack, state);
 		if (Mode.valueOf(NBTHelper.getString(stack, "mode")) == Mode.DETECT)
 			return super.getDigSpeed(stack, state)
-					/ (7f * EnchantmentHelper.getEnchantmentLevel(
-							Enchantment.efficiency.effectId, stack));
+					/ (7f * (1 + (3 * EnchantmentHelper.getEnchantmentLevel(
+							Enchantment.efficiency.effectId, stack))));
 		return super.getDigSpeed(stack, state);
 	}
 
@@ -138,6 +138,9 @@ public class ItemSigmaPick extends ItemPickaxe {
 				return false;
 			if (!block.canSilkHarvest(player.worldObj, pos, state, player)
 					&& EnchantmentHelper.getSilkTouchModifier(player))
+				return false;
+			if (!ForgeHooks
+					.canHarvestBlock(block, player, player.worldObj, pos))
 				return false;
 			vein(stack, pos, player, block, state, 0);
 			return true;
@@ -168,7 +171,9 @@ public class ItemSigmaPick extends ItemPickaxe {
 	private boolean remote(BlockPos pos, EntityPlayer player, Block block,
 			IBlockState state) {
 		ItemStack stack = player.getHeldItem();
-		if (!NBTHelper.getBoolean(stack, "bound"))
+		if (!NBTHelper.getBoolean(stack, "bound")
+				&& !ForgeHooks.canHarvestBlock(block, player, player.worldObj,
+						pos))
 			return false;
 		World world = MinecraftServer.getServer().worldServerForDimension(
 				NBTHelper.getInt(stack, "dimension"));
@@ -199,7 +204,8 @@ public class ItemSigmaPick extends ItemPickaxe {
 			for (BlockPos bl : getAround(new BlockPos(pos.getX(), y2,
 					pos.getZ()))) {
 				Block b = player.worldObj.getBlockState(bl).getBlock();
-				if (isOreInDictionary(b)) {
+				if (isOreInDictionary(b)
+						&& ForgeHooks.canHarvestBlock(b, player, world, bl)) {
 					List<ItemStack> ls = getDrops(player, bl, world
 							.getBlockState(bl).getBlock(),
 							world.getBlockState(bl));
@@ -237,8 +243,7 @@ public class ItemSigmaPick extends ItemPickaxe {
 					world.spawnEntityInWorld(ei);
 				}
 				world.setBlockToAir(bl);
-				IBlockState l = world.getBlockState(pos);
-				world.playAuxSFX(2001, pos, Block.getStateId(l));
+				// world.playAuxSFX(2001, pos, Block.getStateId(l));
 				stack.attemptDamageItem(1, world.rand);
 				vein(stack, bl, player, block, state, num++);
 			}

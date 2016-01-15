@@ -4,26 +4,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import mrriegel.various.helper.Network;
 import mrriegel.various.init.ModBlocks;
+import mrriegel.various.items.ItemSigmaPick;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.client.model.ISmartBlockModel;
 
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 public class TileTotem extends TileEntity implements ITickable {
 	int range = 0;
+	Network network;
 
 	@Override
 	public void update() {
+		if (network == null || network.master == null)
+			network = new Network((IInventory) worldObj.getTileEntity(pos.add(
+					0, 2, 0)), new ArrayList<IInventory>());
+		for (BlockPos p : ItemSigmaPick.getCube(pos)) {
+			if (worldObj.getTileEntity(p) instanceof IInventory) {
+				network.addIInventory((IInventory) worldObj.getTileEntity(p));
+			}
+		}
 		if (worldObj.getBlockState(pos.add(0, -1, 0)).getBlock() == ModBlocks.totem
 				|| worldObj.getTotalWorldTime() % 10 != 0)
 			return;
+		network.insert();
 		range = getNum() * getNum() + 2;
 		AxisAlignedBB f = AxisAlignedBB.fromBounds(pos.getX() + .5 - range,
 				pos.getY() + .5 - range, pos.getZ() + .5 - range, pos.getX()
@@ -31,11 +55,12 @@ public class TileTotem extends TileEntity implements ITickable {
 						+ range);
 		List<EntityCreature> lis = worldObj.getEntitiesWithinAABB(
 				EntityCreature.class, f);
-		for (EntityCreature mob : lis){
+		for (EntityCreature mob : lis) {
 			if (!mob.targetTasks.taskEntries.isEmpty())
 				mob.targetTasks.taskEntries = Lists
 						.<EntityAITasks.EntityAITaskEntry> newArrayList();
-			mob.setAttackTarget(null);
+			if (mob.getAttackTarget() != null)
+				mob.setAttackTarget(null);
 		}
 
 	}
@@ -61,26 +86,23 @@ public class TileTotem extends TileEntity implements ITickable {
 				- range + .5);
 		Vec3 d = new Vec3(pos.getX() - range + .5, pos.getY() + .5, pos.getZ()
 				+ range + .5);
+		EnumParticleTypes par = EnumParticleTypes.VILLAGER_HAPPY;
 		for (int i = 0; i < 6; i++) {
 			for (Vec3 m : points(a, b, 10 * getNum())) {
-				worldObj.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY,
-						m.xCoord + ran.nextDouble() / 2, m.yCoord, m.zCoord
-								+ ran.nextDouble() / 2, 0, 0, 0, 0);
+				worldObj.spawnParticle(par, m.xCoord + ran.nextDouble() / 2,
+						m.yCoord, m.zCoord + ran.nextDouble() / 2, 0, 0, 0, 0);
 			}
 			for (Vec3 m : points(b, c, 10 * getNum())) {
-				worldObj.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY,
-						m.xCoord + ran.nextDouble() / 2, m.yCoord, m.zCoord
-								+ ran.nextDouble() / 2, 0, 0, 0, 0);
+				worldObj.spawnParticle(par, m.xCoord + ran.nextDouble() / 2,
+						m.yCoord, m.zCoord + ran.nextDouble() / 2, 0, 0, 0, 0);
 			}
 			for (Vec3 m : points(c, d, 10 * getNum())) {
-				worldObj.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY,
-						m.xCoord + ran.nextDouble() / 2, m.yCoord, m.zCoord
-								+ ran.nextDouble() / 2, 0, 0, 0, 0);
+				worldObj.spawnParticle(par, m.xCoord + ran.nextDouble() / 2,
+						m.yCoord, m.zCoord + ran.nextDouble() / 2, 0, 0, 0, 0);
 			}
 			for (Vec3 m : points(d, a, 10 * getNum())) {
-				worldObj.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY,
-						m.xCoord + ran.nextDouble() / 2, m.yCoord, m.zCoord
-								+ ran.nextDouble() / 2, 0, 0, 0, 0);
+				worldObj.spawnParticle(par, m.xCoord + ran.nextDouble() / 2,
+						m.yCoord, m.zCoord + ran.nextDouble() / 2, 0, 0, 0, 0);
 			}
 		}
 	}

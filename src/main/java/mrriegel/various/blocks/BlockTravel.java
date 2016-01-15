@@ -7,6 +7,7 @@ import mrriegel.various.VariousItems;
 import mrriegel.various.handler.GuiHandler;
 import mrriegel.various.tile.TileTravel;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -72,6 +73,7 @@ public class BlockTravel extends BlockContainer {
 	public boolean onBlockActivated(World worldIn, BlockPos pos,
 			IBlockState state, EntityPlayer playerIn, EnumFacing side,
 			float hitX, float hitY, float hitZ) {
+		System.out.println("act");
 		if (worldIn.isRemote) {
 			return true;
 		} else {

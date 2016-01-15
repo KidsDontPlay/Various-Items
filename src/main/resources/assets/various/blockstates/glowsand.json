@@ -1,0 +1,10 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "various:glowsand"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

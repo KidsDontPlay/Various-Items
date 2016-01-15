@@ -41,9 +41,8 @@ public class ItemDecoy extends Item {
 					&& iblockstate.getBlock() instanceof BlockFence) {
 				d0 = 0.5D;
 			}
-			EntityDecoy entity = spawnCreature(worldIn,
-					pos.getX() + 0.5D, pos.getY() + d0,
-					pos.getZ() + 0.5D);
+			EntityDecoy entity = spawnCreature(worldIn, pos.getX() + 0.5D,
+					pos.getY() + d0, pos.getZ() + 0.5D);
 
 			if (entity != null) {
 				if (!playerIn.capabilities.isCreativeMode) {

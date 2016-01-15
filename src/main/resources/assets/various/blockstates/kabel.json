@@ -1,0 +1,44 @@
+{
+    "variants" : {
+        "bottom=false,east=false,north=false,south=false,top=false,west=false" : {
+            "model" : "various:kabel0", 
+            "uvlock" : true
+        }, 
+        "bottom=true,east=false,north=false,south=false,top=false,west=false" : {
+            "model" : "various:kabel1", 
+            "uvlock" : true
+        }, 
+        "bottom=false,east=true,north=false,south=false,top=false,west=false" : {
+            "model" : "various:kabel1", 
+            "uvlock" : true
+        }, 
+        "bottom=false,east=false,north=true,south=false,top=false,west=false" : {
+            "model" : "various:kabel1", 
+            "uvlock" : true
+        }, 
+        "bottom=false,east=false,north=false,south=true,top=false,west=false" : {
+            "model" : "various:kabel1", 
+            "uvlock" : true
+        }, 
+        "bottom=false,east=false,north=false,south=false,top=true,west=false" : {
+            "model" : "various:kabel1", 
+            "uvlock" : true
+        }, 
+        "bottom=false,east=false,north=false,south=false,top=false,west=true" : {
+            "model" : "various:kabel1", 
+            "uvlock" : true
+        }, 
+        "bottom=true,east=false,north=false,south=false,top=true,west=false" : {
+            "model" : "various:kabel2op", 
+            "uvlock" : true
+        }, 
+        "bottom=false,east=true,north=false,south=false,top=false,west=true" : {
+            "model" : "various:kabel2op", 
+            "uvlock" : true
+        }, 
+        "bottom=false,east=false,north=true,south=true,top=false,west=false" : {
+            "model" : "various:kabel2op", 
+            "uvlock" : true
+        }
+    }
+}
