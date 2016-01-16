@@ -92,7 +92,6 @@ public class BlockKabel extends Block {
 
 	public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
 		Block block = worldIn.getBlockState(pos).getBlock();
-		System.out.println(block + "  " + pos);
 		return block == ModBlocks.kabel
 				|| worldIn.getTileEntity(pos) instanceof IInventory;
 	}
