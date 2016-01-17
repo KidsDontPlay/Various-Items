@@ -21,22 +21,10 @@ import com.google.common.collect.Lists;
 
 public class TileTotem extends TileEntity implements ITickable {
 	int range = 0;
-	Network network;
+	
 
 	@Override
 	public void update() {
-		if (network == null || network.master == null)
-			network = new Network((IInventory) worldObj.getTileEntity(pos.add(
-					0, 2, 0)), new ArrayList<IInventory>());
-		for (BlockPos p : ItemSigmaPick.getCube(pos)) {
-			if (worldObj.getTileEntity(p) instanceof IInventory) {
-				network.addIInventory((IInventory) worldObj.getTileEntity(p));
-			}
-		}
-		if (worldObj.getBlockState(pos.add(0, -1, 0)).getBlock() == ModBlocks.totem
-				|| worldObj.getTotalWorldTime() % 10 != 0)
-			return;
-		network.insert();
 		range = getNum() * getNum() + 2;
 		AxisAlignedBB f = AxisAlignedBB.fromBounds(pos.getX() + .5 - range,
 				pos.getY() + .5 - range, pos.getZ() + .5 - range, pos.getX()

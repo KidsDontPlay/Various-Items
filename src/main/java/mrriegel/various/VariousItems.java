@@ -1,6 +1,8 @@
 package mrriegel.various;
 
 import mrriegel.various.proxy.CommonProxy;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
