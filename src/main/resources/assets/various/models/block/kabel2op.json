@@ -1,7 +1,7 @@
 {
     "textures" : {
-        "texture" : "blocks/bedrock", 
-        "particle" : "blocks/bedrock"
+        "texture" : "various:blocks/kabelO", 
+        "particle" : "various:blocks/kabelO"
     }, 
     "elements" : [{
             "from" : [6, 6, 0], 
