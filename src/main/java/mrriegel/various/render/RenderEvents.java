@@ -2,18 +2,11 @@ package mrriegel.various.render;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
-
 import mrriegel.various.config.ConfigHandler;
 import mrriegel.various.helper.NBTHelper;
 import mrriegel.various.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;

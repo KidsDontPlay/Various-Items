@@ -8,8 +8,6 @@ import mrriegel.various.init.ModItems;
 import mrriegel.various.items.ItemTravelRecipe;
 import mrriegel.various.network.PacketHandler;
 import mrriegel.various.network.ParticleMessage;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

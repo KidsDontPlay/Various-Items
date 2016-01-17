@@ -7,15 +7,8 @@ import java.util.Random;
 import mrriegel.various.helper.Network;
 import mrriegel.various.init.ModBlocks;
 import mrriegel.various.items.ItemSigmaPick;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -23,11 +16,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.client.model.ISmartBlockModel;
 
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 public class TileTotem extends TileEntity implements ITickable {

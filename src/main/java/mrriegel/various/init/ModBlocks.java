@@ -8,7 +8,6 @@ import mrriegel.various.blocks.BlockTravel;
 import mrriegel.various.tile.TileTotem;
 import mrriegel.various.tile.TileTravel;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
@@ -17,8 +16,8 @@ public class ModBlocks {
 
 	public static final Block travelPort = new BlockTravel();
 	public static final Block totem = new BlockTotem();
-	public static final Block glowsand=new BlockGlowsand();
-	public static final Block kabel=new BlockKabel();
+	public static final Block glowsand = new BlockGlowsand();
+	public static final Block kabel = new BlockKabel();
 
 	public static void init() {
 		GameRegistry.registerBlock(travelPort, "travelPort");

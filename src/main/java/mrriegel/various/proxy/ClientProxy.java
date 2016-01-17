@@ -7,7 +7,6 @@ import mrriegel.various.handler.KeyHandler;
 import mrriegel.various.init.ModBlocks;
 import mrriegel.various.init.ModItems;
 import mrriegel.various.items.ItemMaterial;
-import mrriegel.various.render.CHestR;
 import mrriegel.various.render.PebbleRender;
 import mrriegel.various.render.RenderDecoy;
 import mrriegel.various.render.RenderEvents;
@@ -19,10 +18,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -100,7 +97,8 @@ public class ClientProxy extends CommonProxy {
 						return new RenderDecoy(manager, new ModelPig(), 0.7f);
 					}
 				});
-//		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChest.class, new CHestR());
+		// ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChest.class,
+		// new CHestR());
 
 	}
 

@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 public class Inv {
 	public static int addToInventoriesWithLeftover(ItemStack stack,
 			List<IInventory> inventorys, boolean simulate) {
-		if(stack==null)
+		if (stack == null)
 			return 0;
 		ItemStack in = stack.copy();
 		for (IInventory inv : getInventorys(inventorys, in, true)) {

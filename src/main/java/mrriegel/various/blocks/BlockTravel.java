@@ -7,7 +7,6 @@ import mrriegel.various.VariousItems;
 import mrriegel.various.handler.GuiHandler;
 import mrriegel.various.tile.TileTravel;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;

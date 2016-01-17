@@ -4,18 +4,15 @@ import mrriegel.various.CreativeTab;
 import mrriegel.various.VariousItems;
 import mrriegel.various.init.ModBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
@@ -42,7 +39,6 @@ public class BlockKabel extends Block {
 				.withProperty(BOTTOM, Boolean.valueOf(false)));
 		this.setCreativeTab(CreativeTab.tab1);
 		this.setUnlocalizedName(VariousItems.MODID + ":kabel");
-		System.out.println("zzzzz: " + getDefaultState());
 	}
 
 	@Override
@@ -55,6 +51,7 @@ public class BlockKabel extends Block {
 		return 0;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos,
 			EnumFacing side) {
@@ -96,6 +93,44 @@ public class BlockKabel extends Block {
 				|| worldIn.getTileEntity(pos) instanceof IInventory;
 	}
 
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+		boolean n = this.canConnectTo(worldIn, pos.north());
+		boolean s = this.canConnectTo(worldIn, pos.south());
+		boolean w = this.canConnectTo(worldIn, pos.west());
+		boolean e = this.canConnectTo(worldIn, pos.east());
+		boolean u = this.canConnectTo(worldIn, pos.up());
+		boolean d = this.canConnectTo(worldIn, pos.down());
+		float f = 0.3125F;
+		float f1 = 0.6875F;
+		float f2 = 0.3125F;
+		float f3 = 0.6875F;
+		float f4 = 0.3125F;
+		float f5 = 0.6875F;
+
+		if (n)
+			f2 = 0.0F;
+		if (s)
+			f3 = 1.0F;
+		if (w)
+			f = 0.0F;
+		if (e)
+			f1 = 1.0F;
+		if (d)
+			f4 = 0.0f;
+		if (u)
+			f5 = 1.0f;
+		this.setBlockBounds(f, f4, f2, f1, f5, f3);
+	}
+
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos,
+			IBlockState state) {
+		setBlockBoundsBasedOnState(worldIn, pos);
+		return super.getCollisionBoundingBox(worldIn, pos, state);
+	}
+
+	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
 			BlockPos pos) {
 		return state
