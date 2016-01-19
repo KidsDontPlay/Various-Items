@@ -1,0 +1,7 @@
+{
+    "parent" : "various:block/kabel6", 
+    "textures" : {
+        "texture" : "various:blocks/exKabel", 
+        "particle" : "various:blocks/exKabel"
+    }
+}

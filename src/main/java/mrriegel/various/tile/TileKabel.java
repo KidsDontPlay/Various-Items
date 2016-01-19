@@ -18,24 +18,31 @@ public class TileKabel extends TileEntity {
 	private Set<EnumFacing> connections;
 	private Kind kind;
 	private BlockPos master;
+	private int priority;
 
 	public enum Kind {
-		kabel, exKabel, imKabel;
+		kabel, exKabel, imKabel, storageKabel, vacuumKabel;
 	}
 
 	public TileKabel() {
-		connections = new HashSet<EnumFacing>();
-		kind = getKind();
 	}
 
-	private Kind getKind(World world, BlockPos pos) {
-		Block b = world.getBlockState(pos).getBlock();
+	public TileKabel(World w, Block b) {
+		connections = new HashSet<EnumFacing>();
+		kind = getKind(w, b);
+	}
+
+	public static Kind getKind(World world, Block b) {
 		if (b == ModBlocks.kabel)
 			return Kind.kabel;
 		if (b == ModBlocks.exKabel)
 			return Kind.exKabel;
 		if (b == ModBlocks.imKabel)
 			return Kind.imKabel;
+		if (b == ModBlocks.storageKabel)
+			return Kind.storageKabel;
+		if (b == ModBlocks.vacuumKabel)
+			return Kind.vacuumKabel;
 		return null;
 	}
 
@@ -46,8 +53,9 @@ public class TileKabel extends TileEntity {
 				new TypeToken<Set<EnumFacing>>() {
 				}.getType());
 		kind = Kind.valueOf(compound.getString("kind"));
-		master = new BlockPos(compound.getInteger("X"),
-				compound.getInteger("Y"), compound.getInteger("Z"));
+		master = new Gson().fromJson(compound.getString("master"),
+				new TypeToken<BlockPos>() {
+				}.getType());
 
 	}
 
@@ -55,14 +63,16 @@ public class TileKabel extends TileEntity {
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setString("connections", new Gson().toJson(connections));
-		if(kind==null)
-			kind=getKind();
+		if (kind == null)
+			kind = getKind(worldObj, worldObj.getBlockState(pos).getBlock());
 		compound.setString("kind", kind.toString());
-		if (master != null) {
-			compound.setInteger("X", master.getX());
-			compound.setInteger("Y", master.getY());
-			compound.setInteger("Z", master.getZ());
-		}
+		compound.setString("master", new Gson().toJson(master));
+	}
+
+	@Override
+	public void onLoad() {
+		// if (master != null)
+		// ((TileMaster) worldObj.getTileEntity(master)).refreshNetwork();
 	}
 
 	public Set<EnumFacing> getConnections() {
@@ -73,7 +83,17 @@ public class TileKabel extends TileEntity {
 		this.connections = connections;
 	}
 
+	public BlockPos getMaster() {
+		return master;
+	}
+
+	public void setMaster(BlockPos master) {
+		this.master = master;
+	}
+
 	public Kind getKind() {
+		if (kind == null)
+			kind = getKind(worldObj, worldObj.getBlockState(pos).getBlock());
 		return kind;
 	}
 

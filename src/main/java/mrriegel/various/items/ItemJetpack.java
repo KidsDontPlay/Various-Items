@@ -9,7 +9,10 @@ import mrriegel.various.helper.NBTHelper;
 import mrriegel.various.network.JetpackMessage;
 import mrriegel.various.network.PacketHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -39,6 +42,12 @@ public class ItemJetpack extends ItemArmor {
 	@Override
 	public int getItemEnchantability() {
 		return 0;
+	}
+
+	@Override
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
+			ItemStack itemStack, int armorSlot) {
+		return super.getArmorModel(entityLiving, itemStack, armorSlot);
 	}
 
 	@Override

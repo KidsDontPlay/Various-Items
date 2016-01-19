@@ -22,19 +22,25 @@ public class ModBlocks {
 	public static final Block glowsand = new BlockGlowsand();
 	public static final Block kabel = new BlockKabel()
 			.setUnlocalizedName(VariousItems.MODID + ":kabel");
+	public static final Block storageKabel = new BlockKabel()
+			.setUnlocalizedName(VariousItems.MODID + ":storageKabel");
 	public static final Block exKabel = new BlockKabel()
 			.setUnlocalizedName(VariousItems.MODID + ":exKabel");
 	public static final Block imKabel = new BlockKabel()
 			.setUnlocalizedName(VariousItems.MODID + ":imKabel");
-	public static final Block master=new BlockMaster();
+	public static final Block vacuumKabel = new BlockKabel()
+	.setUnlocalizedName(VariousItems.MODID + ":vacuumKabel");
+	public static final Block master = new BlockMaster();
 
 	public static void init() {
 		GameRegistry.registerBlock(travelPort, "travelPort");
 		GameRegistry.registerBlock(totem, "totem");
 		GameRegistry.registerBlock(glowsand, "glowsand");
 		GameRegistry.registerBlock(kabel, "kabel");
+		GameRegistry.registerBlock(storageKabel, "storageKabel");
 		GameRegistry.registerBlock(exKabel, "exKabel");
 		GameRegistry.registerBlock(imKabel, "imKabel");
+		GameRegistry.registerBlock(vacuumKabel, "vacuumKabel");
 		GameRegistry.registerBlock(master, "master");
 
 		GameRegistry.registerTileEntity(TileTravel.class, "tileTravelPort");

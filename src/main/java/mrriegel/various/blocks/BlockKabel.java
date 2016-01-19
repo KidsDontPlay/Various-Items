@@ -4,7 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import mrriegel.various.CreativeTab;
+import mrriegel.various.init.ModBlocks;
 import mrriegel.various.tile.TileKabel;
+import mrriegel.various.tile.TileMaster;
+import mrriegel.various.tile.TileKabel.Kind;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -109,19 +112,69 @@ public class BlockKabel extends BlockContainer {
 		if (state.getValue(TOP))
 			set.add(EnumFacing.UP);
 		tile.setConnections(set);
+		tile.setMaster(null);
+		for (BlockPos n : TileMaster.getSides(pos)) {
+			if (tile.getMaster() != null)
+				break;
+			if (worldIn.getTileEntity(n) instanceof TileMaster)
+				tile.setMaster(worldIn.getTileEntity(n).getPos());
+			if (worldIn.getTileEntity(n) instanceof TileKabel
+					&& ((TileKabel) worldIn.getTileEntity(n)).getMaster() != null)
+				tile.setMaster(((TileKabel) worldIn.getTileEntity(n))
+						.getMaster());
+		}
+		if (tile.getMaster() == null
+				|| worldIn.getTileEntity(tile.getMaster()) == null
+				|| !(worldIn.getTileEntity(tile.getMaster()) instanceof TileMaster))
+			setAllMastersNull(worldIn, pos);
+		if (tile.getMaster() != null)
+			((TileMaster) worldIn.getTileEntity(tile.getMaster()))
+					.refreshNetwork();
+	}
+
+	private void setAllMastersNull(World world, BlockPos pos) {
+		((TileKabel) world.getTileEntity(pos)).setMaster(null);
+		for (BlockPos bl : TileMaster.getSides(pos)) {
+			if (world.getBlockState(bl).getBlock() instanceof BlockKabel
+					&& world.getChunkFromBlockCoords(bl).isLoaded()
+					&& ((TileKabel) world.getTileEntity(bl)).getMaster() != null) {
+				((TileKabel) world.getTileEntity(bl)).setMaster(null);
+				setAllMastersNull(world, bl);
+			}
+		}
 	}
 
 	public boolean canConnectTo(IBlockAccess worldIn, BlockPos orig,
 			BlockPos pos) {
 		Block block = worldIn.getBlockState(pos).getBlock();
-		boolean kabel = block instanceof BlockKabel;
+		Block ori = worldIn.getBlockState(orig).getBlock();
+		if (block == ModBlocks.master || block instanceof BlockKabel)
+			return true;
+		if (ori == ModBlocks.kabel || ori == ModBlocks.vacuumKabel)
+			return false;
 		boolean inventory = worldIn.getTileEntity(pos) instanceof IInventory
 				&& !(worldIn.getTileEntity(pos) instanceof ISidedInventory);
 		EnumFacing face = get(orig, pos);
 		boolean sided = worldIn.getTileEntity(pos) instanceof ISidedInventory
 				&& (((ISidedInventory) worldIn.getTileEntity(pos))
 						.getSlotsForFace(face).length != 0);
-		return kabel || inventory || sided;
+		if (!inventory && !sided)
+			return false;
+		if (isConnectedToInventory(worldIn, orig))
+			return false;
+		return inventory || sided;
+	}
+
+	boolean isConnectedToInventory(IBlockAccess world, BlockPos pos) {
+		for (BlockPos p : TileMaster.getSides(pos)) {
+			if (world.getTileEntity(p) instanceof ISidedInventory
+					&& (((ISidedInventory) world.getTileEntity(p))
+							.getSlotsForFace(get(pos, p)).length != 0))
+				return true;
+			if (world.getTileEntity(p) instanceof IInventory)
+				return true;
+		}
+		return false;
 	}
 
 	private EnumFacing get(BlockPos a, BlockPos b) {
@@ -215,7 +268,7 @@ public class BlockKabel extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileKabel();
+		return new TileKabel(worldIn, this);
 	}
 
 }
