@@ -1,0 +1,7 @@
+{
+    "parent" : "various:block/kabel2op", 
+    "textures" : {
+        "texture" : "various:blocks/storageKabelO", 
+        "particle" : "various:blocks/storageKabelO"
+    }
+}

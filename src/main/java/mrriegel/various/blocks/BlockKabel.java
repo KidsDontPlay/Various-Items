@@ -10,6 +10,7 @@ import mrriegel.various.tile.TileMaster;
 import mrriegel.various.tile.TileKabel.Kind;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -146,6 +147,7 @@ public class BlockKabel extends BlockContainer {
 
 	public boolean canConnectTo(IBlockAccess worldIn, BlockPos orig,
 			BlockPos pos) {
+		// System.out.println("can connect");
 		Block block = worldIn.getBlockState(pos).getBlock();
 		Block ori = worldIn.getBlockState(orig).getBlock();
 		if (block == ModBlocks.master || block instanceof BlockKabel)
@@ -160,16 +162,22 @@ public class BlockKabel extends BlockContainer {
 						.getSlotsForFace(face).length != 0);
 		if (!inventory && !sided)
 			return false;
-		if (isConnectedToInventory(worldIn, orig))
+		// System.out.println("already inventory: "+isConnectedToInventory(worldIn,
+		// orig));
+		// if(1==1)return true;
+		if (isConnectedToInventory(worldIn, orig, pos))
 			return false;
 		return inventory || sided;
 	}
 
-	boolean isConnectedToInventory(IBlockAccess world, BlockPos pos) {
-		for (BlockPos p : TileMaster.getSides(pos)) {
+	boolean isConnectedToInventory(IBlockAccess world, BlockPos orig,
+			BlockPos pos) {
+		for (BlockPos p : TileMaster.getSides(orig)) {
+			if (p.equals(pos))
+				continue;
 			if (world.getTileEntity(p) instanceof ISidedInventory
 					&& (((ISidedInventory) world.getTileEntity(p))
-							.getSlotsForFace(get(pos, p)).length != 0))
+							.getSlotsForFace(get(orig, p)).length != 0))
 				return true;
 			if (world.getTileEntity(p) instanceof IInventory)
 				return true;

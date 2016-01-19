@@ -68,6 +68,9 @@ public class ClientProxy extends CommonProxy {
 						"inventory"));
 		mesher.register(ModItems.pebble, 0, new ModelResourceLocation(
 				VariousItems.MODID + ":pebble", "inventory"));
+		mesher.register(Item.getItemFromBlock(ModBlocks.exKabel), 0,
+				new ModelResourceLocation(VariousItems.MODID + ":exKabel",
+						"inventory"));
 		for (int i = 0; i < ItemMaterial.NUMBER; i++) {
 			ModelBakery.registerItemVariants(ModItems.material,
 					new ResourceLocation(VariousItems.MODID + ":" + "material_"

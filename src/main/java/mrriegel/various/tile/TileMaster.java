@@ -27,8 +27,11 @@ public class TileMaster extends TileEntity implements ITickable {
 	private void addCables(BlockPos pos, int num) {
 		if (cables == null)
 			cables = new HashSet<BlockPos>();
-		if (num >= 200)
+		if (num >= 500) {
+			System.out.println("too much cables");
+			active = false;
 			return;
+		}
 		for (BlockPos bl : getSides(pos)) {
 			if (worldObj.getBlockState(bl).getBlock() == ModBlocks.master
 					&& !bl.equals(pos)) {
@@ -39,6 +42,7 @@ public class TileMaster extends TileEntity implements ITickable {
 					&& !cables.contains(bl)
 					&& worldObj.getChunkFromBlockCoords(bl).isLoaded()) {
 				cables.add(bl);
+				((TileKabel) worldObj.getTileEntity(bl)).setMaster(this.pos);
 				addCables(bl, num++);
 			}
 		}
@@ -46,13 +50,34 @@ public class TileMaster extends TileEntity implements ITickable {
 	}
 
 	private void addInventorys() {
+		storageInventorys = new HashSet<BlockPos>();
+		imInventorys = new HashSet<BlockPos>();
+		exInventorys = new HashSet<BlockPos>();
 		for (BlockPos cable : cables) {
 			TileKabel tile = (TileKabel) worldObj.getTileEntity(cable);
-			for (EnumFacing face : tile.getConnections()) {
-				BlockGlass g;
+			if (tile.getKind() == Kind.exKabel) {
+				for (EnumFacing face : tile.getConnections()) {
+					if (worldObj.getTileEntity(cable.offset(face)) instanceof IInventory
+							&& worldObj.getChunkFromBlockCoords(
+									cable.offset(face)).isLoaded())
+						exInventorys.add(cable.offset(face));
+				}
+			} else if (tile.getKind() == Kind.imKabel) {
+				for (EnumFacing face : tile.getConnections()) {
+					if (worldObj.getTileEntity(cable.offset(face)) instanceof IInventory
+							&& worldObj.getChunkFromBlockCoords(
+									cable.offset(face)).isLoaded())
+						imInventorys.add(cable.offset(face));
+				}
+			} else if (tile.getKind() == Kind.storageKabel) {
+				for (EnumFacing face : tile.getConnections()) {
+					if (worldObj.getTileEntity(cable.offset(face)) instanceof IInventory
+							&& worldObj.getChunkFromBlockCoords(
+									cable.offset(face)).isLoaded())
+						storageInventorys.add(cable.offset(face));
+				}
 			}
 		}
-
 	}
 
 	public static List<BlockPos> getSides(BlockPos pos) {
@@ -64,22 +89,17 @@ public class TileMaster extends TileEntity implements ITickable {
 		lis.add(pos.north());
 		lis.add(pos.south());
 		return lis;
-
-	}
-
-	@Override
-	public void onLoad() {
-		System.out.println("loadzzzz");
-		// refreshNetwork();
 	}
 
 	public void refreshNetwork() {
-		cables=null;
+		cables = null;
 		addCables(pos, 0);
-		for (BlockPos c : cables)
-			((TileKabel) worldObj.getTileEntity(c)).setMaster(pos);
 		addInventorys();
-		System.out.println("size: " + cables.size());
+		System.out.println("ex: "+exInventorys);
+		System.out.println("im: "+imInventorys);
+		System.out.println("stor: "+storageInventorys);
+		if (!active)
+			return;
 	}
 
 	public void vacuum() {
@@ -101,7 +121,7 @@ public class TileMaster extends TileEntity implements ITickable {
 								+ range + 1));
 
 				for (EntityItem item : items) {
-					if (item.getAge() < (60) || item.getAge() >= 105
+					if (item.getAge() < 60 || item.getAge() >= 105
 							&& item.getAge() < 110 || item.isDead)
 						continue;
 					ItemStack stack = item.getEntityItem();

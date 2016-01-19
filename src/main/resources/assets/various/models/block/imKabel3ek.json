@@ -1,0 +1,7 @@
+{
+    "parent" : "various:block/kabel3ek", 
+    "textures" : {
+        "texture" : "various:blocks/imKabel", 
+        "particle" : "various:blocks/imKabel"
+    }
+}
