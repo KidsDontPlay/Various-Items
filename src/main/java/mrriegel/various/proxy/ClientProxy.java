@@ -1,27 +1,18 @@
 package mrriegel.various.proxy;
 
 import mrriegel.various.VariousItems;
-import mrriegel.various.entity.EntityDecoy;
-import mrriegel.various.entity.EntityPebble;
 import mrriegel.various.handler.KeyHandler;
 import mrriegel.various.init.ModBlocks;
 import mrriegel.various.init.ModItems;
 import mrriegel.various.items.ItemMaterial;
-import mrriegel.various.render.PebbleRender;
-import mrriegel.various.render.RenderDecoy;
 import mrriegel.various.render.RenderEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelPig;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -68,9 +59,6 @@ public class ClientProxy extends CommonProxy {
 						"inventory"));
 		mesher.register(ModItems.pebble, 0, new ModelResourceLocation(
 				VariousItems.MODID + ":pebble", "inventory"));
-		mesher.register(Item.getItemFromBlock(ModBlocks.exKabel), 0,
-				new ModelResourceLocation(VariousItems.MODID + ":exKabel",
-						"inventory"));
 		for (int i = 0; i < ItemMaterial.NUMBER; i++) {
 			ModelBakery.registerItemVariants(ModItems.material,
 					new ResourceLocation(VariousItems.MODID + ":" + "material_"
@@ -90,16 +78,9 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void registerRenderers() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityPebble.class,
-				(IRenderFactory) new PebbleRender(Minecraft.getMinecraft()
-						.getRenderManager()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityDecoy.class,
-				new IRenderFactory() {
-					@Override
-					public Render createRenderFor(RenderManager manager) {
-						return new RenderDecoy(manager, new ModelPig(), 0.7f);
-					}
-				});
+//		RenderingRegistry.registerEntityRenderingHandler(EntityPebble.class,
+//				(IRenderFactory) new PebbleRender(Minecraft.getMinecraft()
+//						.getRenderManager()));
 		// ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChest.class,
 		// new CHestR());
 

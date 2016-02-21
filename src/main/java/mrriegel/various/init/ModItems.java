@@ -1,7 +1,6 @@
 package mrriegel.various.init;
 
 import mrriegel.various.VariousItems;
-import mrriegel.various.items.ItemDecoy;
 import mrriegel.various.items.ItemFilter;
 import mrriegel.various.items.ItemFoodBackpack;
 import mrriegel.various.items.ItemInfiTorch;
@@ -23,7 +22,6 @@ public class ModItems {
 	public static final Item travelRecipe = new ItemTravelRecipe();
 	public static final Item pebble = new ItemPebble();
 	public static final Item filter = new ItemFilter();
-	public static final Item decoy = new ItemDecoy();
 	public static final Item torch = new ItemInfiTorch();
 	public static final Item foodBack = new ItemFoodBackpack();
 
@@ -34,7 +32,6 @@ public class ModItems {
 		GameRegistry.registerItem(travelRecipe, "travelRecipe");
 		GameRegistry.registerItem(pebble, "pebble");
 		GameRegistry.registerItem(filter, "filter");
-		GameRegistry.registerItem(decoy, "decoy");
 		GameRegistry.registerItem(torch, "infiTorch");
 		GameRegistry.registerItem(foodBack, "foodBackpack");
 	}

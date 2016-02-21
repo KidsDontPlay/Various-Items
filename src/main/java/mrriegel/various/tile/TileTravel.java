@@ -114,8 +114,8 @@ public class TileTravel extends CrunchTEInventory implements ITickable {
 	}
 
 	EntityPlayer getPlayer() {
-		AxisAlignedBB f = AxisAlignedBB.fromBounds(pos.getX(), pos.getY() + 1,
-				pos.getZ(), pos.getX() + 1, pos.getY() + 1.1, pos.getZ() + 1);
+		AxisAlignedBB f = AxisAlignedBB.fromBounds(pos.getX(), pos.getY() + 1.3,
+				pos.getZ(), pos.getX() + 1, pos.getY() + 1.6, pos.getZ() + 1);
 		List<EntityPlayer> lis = worldObj.getEntitiesWithinAABB(
 				EntityPlayer.class, f);
 		return lis.get(0);
